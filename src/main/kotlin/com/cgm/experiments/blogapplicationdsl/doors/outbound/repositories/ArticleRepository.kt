@@ -3,7 +3,7 @@ package com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 
 class ArticleRepository{
-     val articles = listOf(
+     val articles = mutableListOf(
          Article(1, "article x", "body article x"),
          Article(2, "article y", "body article y")
      )
@@ -12,6 +12,9 @@ class ArticleRepository{
 
     fun getOne(id: Int) = articles.firstOrNull { it.id == id }
     fun save(article: Article): Article {
-        return article
+        val maxId = articles.maxByOrNull { it.id }?.id ?: 0
+        val newArticle = article.copy(id = maxId + 1)
+        articles.add(newArticle)
+        return newArticle
     }
 }

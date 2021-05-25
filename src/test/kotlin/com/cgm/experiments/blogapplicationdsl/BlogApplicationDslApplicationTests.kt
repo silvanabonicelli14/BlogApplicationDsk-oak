@@ -84,7 +84,7 @@ class BlogApplicationDslApplicationTests {
         val articleStr = client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = expectedArticle
+            content = mapper.writeValueAsString(expectedArticle)
         }
         .andExpect {
             status { isCreated() }
@@ -97,8 +97,6 @@ class BlogApplicationDslApplicationTests {
                 status { isOk() }
                 content { json(mapper.writeValueAsString(actualArticle)) }
             }
-
     }
-
 }
 

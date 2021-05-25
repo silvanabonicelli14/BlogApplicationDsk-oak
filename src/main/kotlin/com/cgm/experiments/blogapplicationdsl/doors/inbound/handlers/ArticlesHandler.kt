@@ -32,8 +32,11 @@ object ArticlesHandler{
         null
     }
 
-    fun save(request: ServerRequest) = request
-        .body<Article>()
-        .let { article ->  articleRepository.save(article)}
-        .let { article -> ServerResponse.created(URI("")).body(article) }
+    fun save(request: ServerRequest): ServerResponse {
+        val body = request
+            .body(Article::class.java)
+        return body
+            .let { article ->  articleRepository.save(article)}
+            .let { article -> ServerResponse.created(URI("")).body(article) }
+    }
 }
