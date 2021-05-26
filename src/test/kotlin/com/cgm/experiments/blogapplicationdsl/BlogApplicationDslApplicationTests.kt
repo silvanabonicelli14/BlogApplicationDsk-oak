@@ -4,11 +4,13 @@ import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.*
+import org.springframework.boot.SpringApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BlogApplicationDslApplicationTests {
@@ -144,11 +146,10 @@ class BlogApplicationDslApplicationTests {
     }
 
     @Test
-    fun `can't delete an article because doesn't exists`() {
+    fun `can't delete an article because does not exists`() {
         client.delete("/api/articles/9999")
             .andExpect {
                 status { isNotFound() }
             }
     }
 }
-
