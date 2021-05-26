@@ -11,6 +11,7 @@ class ArticleRepository{
     fun getAll() = articles
 
     fun getOne(id: Int) = articles.firstOrNull { it.id == id }
+
     fun new(article: Article): Article {
         val maxId = articles.maxByOrNull { it.id }?.id ?: 0
         val newArticle = article.copy(id = maxId + 1)
@@ -21,9 +22,8 @@ class ArticleRepository{
     fun update(article: Article): Article? {
         return articles.find { it.id == article.id }
             ?.let {
-                val index = articles.indexOf(it)
-                articles[index] = article
-                return it
+                articles[articles.indexOf(it)] = article
+                it
             }
     }
 }

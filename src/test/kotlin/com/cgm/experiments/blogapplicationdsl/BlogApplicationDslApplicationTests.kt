@@ -112,14 +112,14 @@ class BlogApplicationDslApplicationTests {
         .andExpect {
             status { isOk() }
         }
-            //.andReturn().response.contentAsString
-        //val actualArticle = mapper.readValue<Article>(articleStr)
-//        client.get("/api/articles/${actualArticle.id}")
-//            .andExpect {
-//                status { isOk() }
-//                content { json(mapper.writeValueAsString(actualArticle)) }
-//                content { json(mapper.writeValueAsString(modifiedArticle)) }
-//            }
+        .andReturn().response.contentAsString
+
+        val actualArticle = mapper.readValue<Article>(articleStr)
+        client.get("/api/articles/${actualArticle.id}")
+            .andExpect {
+                status { isOk() }
+                content { json(mapper.writeValueAsString(modifiedArticle)) }
+            }
     }
     @Test
     fun `cannot modify an article because not found`() {
