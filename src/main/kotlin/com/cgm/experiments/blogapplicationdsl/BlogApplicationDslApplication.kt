@@ -24,10 +24,10 @@ fun main(args: Array<String>) {
 fun start(args: Array<String> = emptyArray()): ConfigurableApplicationContext {
 
     return runApplication<BlogApplicationDslApplication>(*args){
-        setDefaultProperties(
-            Collections
-                .singletonMap<String, Any>("server.port", (10000 ..10500).random())
-        )
+//        setDefaultProperties(
+//            Collections
+//                .singletonMap<String, Any>("server.port", (10000 ..10500).random())
+//        )
         addInitializers(beans {
             bean {
                 router {
