@@ -51,8 +51,10 @@ object ArticlesHandler{
         ?.run(::delete)
         ?: ServerResponse.notFound().build())
 
-    private fun delete(id: String) = (id.toIntOrNull()?.let {
-            intId ->run(::okResponse)
+    private fun delete(id: String) = (id.toIntOrNull()?.let {intId ->
+        articleRepository.delete(intId)
+            ?.run(::okResponse)
+            ?: ServerResponse.notFound().build()
         }
-        ?: ServerResponse.notFound().build())
+        ?: ServerResponse.badRequest().build())
 }

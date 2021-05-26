@@ -20,10 +20,17 @@ class ArticleRepository{
     }
 
     fun update(article: Article): Article? {
-        return articles.find { it.id == article.id }
+        return getOne(article.id)
             ?.let {
                 articles[articles.indexOf(it)] = article
                 it
+            }
+    }
+
+    fun delete(id: Int) = run {
+        getOne(id)
+            ?.let {
+                articles.removeAt(articles.indexOf(it))
             }
     }
 }

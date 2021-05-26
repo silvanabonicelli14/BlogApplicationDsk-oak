@@ -119,8 +119,8 @@ class BlogApplicationDslApplicationTests {
 
     @Test
     fun `cannot modify an article because not found`() {
-        val modifiedArticle = Article(14, "MODIFIED article x", "body article x")
-        client.put("/api/articles/14"){
+        val modifiedArticle = Article(9999, "MODIFIED article x", "body article x")
+        client.put("/api/articles/9999"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = mapper.writeValueAsString(modifiedArticle)
@@ -136,11 +136,16 @@ class BlogApplicationDslApplicationTests {
             .andExpect {
                 status { isOk() }
             }
+
+        client.get("/api/articles/1")
+            .andExpect {
+                status { isNotFound() }
+            }
     }
 
     @Test
     fun `can't delete an article because doesn't exists`() {
-        client.delete("/api/articles/14")
+        client.delete("/api/articles/9999")
             .andExpect {
                 status { isNotFound() }
             }
