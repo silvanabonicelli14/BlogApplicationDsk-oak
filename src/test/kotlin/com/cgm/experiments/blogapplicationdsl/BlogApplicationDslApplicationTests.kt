@@ -87,15 +87,17 @@ class BlogApplicationDslApplicationTests {
         }
         .andExpect {
             status { isCreated() }
-        }.andReturn().response.contentAsString
-
-        val actualArticle = mapper.readValue<Article>(articleStr)
-
-        client.get("/api/articles/${actualArticle.id}")
-            .andExpect {
-                status { isOk() }
-                content { json(mapper.writeValueAsString(actualArticle)) }
-            }
+        }.andReturn()
+        .let {
+            val article: Article = mapper.readValue(it.response.contentAsString)
+            val location: String = it.response.getHeaderValue("location") as String
+            Assertions.assertTrue(location == "http://localhost/api/articles/${article.id}")
+            client.get("/api/articles/${article.id}")
+                .andExpect {
+                    status { isOk() }
+                    content { json(mapper.writeValueAsString(article)) }
+                }
+        }
     }
 
     @Test

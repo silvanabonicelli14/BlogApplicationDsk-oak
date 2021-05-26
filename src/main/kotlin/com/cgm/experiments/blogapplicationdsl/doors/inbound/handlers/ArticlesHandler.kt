@@ -2,6 +2,8 @@ package com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers
 
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ArticleRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
@@ -36,9 +38,13 @@ object ArticlesHandler{
             .body(Article::class.java)
         return body
             .let { article ->  articleRepository.new(article)}
-            .let { article -> ServerResponse.created(URI("")).body(article) }
+            .let {
+                article -> ServerResponse.created(URI("${request.toUri()}/api/articles/${article.id}")).body(article)
+            }
     }
-
+    private fun ServerRequest.toUri(): String{
+        return "${uri().scheme}://${uri().host}"
+    }
     fun update(request: ServerRequest): ServerResponse {
         val body = request
             .body(Article::class.java)

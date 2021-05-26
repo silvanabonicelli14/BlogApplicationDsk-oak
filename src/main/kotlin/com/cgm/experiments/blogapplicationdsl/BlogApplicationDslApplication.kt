@@ -1,8 +1,11 @@
 package com.cgm.experiments.blogapplicationdsl
 
+import ServerPortCustomizer
 import com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers.ArticlesHandler
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.support.beans
@@ -12,8 +15,8 @@ import java.util.*
 
 
 @SpringBootApplication
-class BlogApplicationDslApplication
 
+class BlogApplicationDslApplication
 fun main(args: Array<String>) {
     start(args)
 }
@@ -23,7 +26,7 @@ fun start(args: Array<String> = emptyArray()): ConfigurableApplicationContext {
     return runApplication<BlogApplicationDslApplication>(*args){
         setDefaultProperties(
             Collections
-                .singletonMap<String, Any>("server.port", "8084")
+                .singletonMap<String, Any>("server.port", (10000 ..10500).random())
         )
         addInitializers(beans {
             bean {
