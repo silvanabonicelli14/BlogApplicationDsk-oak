@@ -3,16 +3,11 @@ package com.cgm.experiments.blogapplicationdsl
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.post
-import org.springframework.test.web.servlet.put
+import org.springframework.test.web.servlet.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.util.Assert
 import org.springframework.web.context.WebApplicationContext
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -121,14 +116,31 @@ class BlogApplicationDslApplicationTests {
                 content { json(mapper.writeValueAsString(modifiedArticle)) }
             }
     }
+
     @Test
     fun `cannot modify an article because not found`() {
         val modifiedArticle = Article(14, "MODIFIED article x", "body article x")
-        val articleStr = client.put("/api/articles/14"){
+        client.put("/api/articles/14"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = mapper.writeValueAsString(modifiedArticle)
         }
+        .andExpect {
+            status { isNotFound() }
+        }
+    }
+
+    @Test
+    fun `can delete an article`() {
+        client.delete("/api/articles/1")
+            .andExpect {
+                status { isOk() }
+            }
+    }
+
+    @Test
+    fun `can't delete an article because doesn't exists`() {
+        client.delete("/api/articles/14")
             .andExpect {
                 status { isNotFound() }
             }

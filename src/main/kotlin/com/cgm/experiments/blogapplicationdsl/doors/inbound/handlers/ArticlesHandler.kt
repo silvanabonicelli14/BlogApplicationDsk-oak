@@ -5,7 +5,6 @@ import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.Articl
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
-import org.springframework.web.servlet.function.body
 import java.net.URI
 
 object ArticlesHandler{
@@ -46,6 +45,14 @@ object ArticlesHandler{
         return articleRepository.update(body)
             ?.run(::okResponse)
             ?:ServerResponse.notFound().build()
-
     }
+
+    fun remove(request: ServerRequest): ServerResponse = (request.inPath("id")
+        ?.run(::delete)
+        ?: ServerResponse.notFound().build())
+
+    private fun delete(id: String) = (id.toIntOrNull()?.let {
+            intId ->run(::okResponse)
+        }
+        ?: ServerResponse.notFound().build())
 }

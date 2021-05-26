@@ -22,6 +22,7 @@ fun start(args: Array<String> = emptyArray()) =
                     "api".nest {
                         GET("/articles", ArticlesHandler::find)
                         GET("/articles/{id}", ArticlesHandler::find)
+                        DELETE("/articles/{id}", ArticlesHandler::remove)
                         accept(MediaType.APPLICATION_JSON).nest {
                             POST("/articles",ArticlesHandler::new)
                             PUT("/articles/{id}",ArticlesHandler::update)
