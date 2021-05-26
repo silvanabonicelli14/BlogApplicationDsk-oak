@@ -121,5 +121,17 @@ class BlogApplicationDslApplicationTests {
 //                content { json(mapper.writeValueAsString(modifiedArticle)) }
 //            }
     }
+    @Test
+    fun `cannot modify an article because not found`() {
+        val modifiedArticle = Article(14, "MODIFIED article x", "body article x")
+        val articleStr = client.put("/api/articles/14"){
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = mapper.writeValueAsString(modifiedArticle)
+        }
+            .andExpect {
+                status { isNotFound() }
+            }
+    }
 }
 

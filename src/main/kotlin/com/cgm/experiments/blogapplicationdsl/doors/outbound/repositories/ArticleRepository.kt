@@ -3,7 +3,7 @@ package com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 
 class ArticleRepository{
-     val articles = mutableListOf(
+     private val articles = mutableListOf(
          Article(1, "article x", "body article x"),
          Article(2, "article y", "body article y")
      )
@@ -18,7 +18,12 @@ class ArticleRepository{
         return newArticle
     }
 
-    fun update(article: Article): Article {
-        return article
+    fun update(article: Article): Article? {
+        return articles.find { it.id == article.id }
+            ?.let {
+                val index = articles.indexOf(it)
+                articles[index] = article
+                return it
+            }
     }
 }

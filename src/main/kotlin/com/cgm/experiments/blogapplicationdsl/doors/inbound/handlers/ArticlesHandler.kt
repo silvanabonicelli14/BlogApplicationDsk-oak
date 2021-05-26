@@ -9,7 +9,7 @@ import org.springframework.web.servlet.function.body
 import java.net.URI
 
 object ArticlesHandler{
-    val articleRepository  = ArticleRepository()
+    private val articleRepository  = ArticleRepository()
 
     fun find(request: ServerRequest): ServerResponse = (request.inPath("id")
         ?.run(::getOne)
@@ -43,8 +43,9 @@ object ArticlesHandler{
     fun update(request: ServerRequest): ServerResponse {
         val body = request
             .body(Article::class.java)
-        return body
-            .let { article ->  articleRepository.update(article)}
-            .let { article -> ServerResponse.ok().build()}
+        return articleRepository.update(body)
+            ?.run(::okResponse)
+            ?:ServerResponse.notFound().build()
+
     }
 }
