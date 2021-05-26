@@ -23,7 +23,8 @@ fun start(args: Array<String> = emptyArray()) =
                         GET("/articles", ArticlesHandler::find)
                         GET("/articles/{id}", ArticlesHandler::find)
                         accept(MediaType.APPLICATION_JSON).nest {
-                            POST("/articles",ArticlesHandler::save)
+                            POST("/articles",ArticlesHandler::new)
+                            PUT("/articles/{id}",ArticlesHandler::update)
                         }
                     }
                 }

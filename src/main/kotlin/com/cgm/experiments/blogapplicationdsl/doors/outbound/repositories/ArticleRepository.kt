@@ -11,10 +11,14 @@ class ArticleRepository{
     fun getAll() = articles
 
     fun getOne(id: Int) = articles.firstOrNull { it.id == id }
-    fun save(article: Article): Article {
+    fun new(article: Article): Article {
         val maxId = articles.maxByOrNull { it.id }?.id ?: 0
         val newArticle = article.copy(id = maxId + 1)
         articles.add(newArticle)
         return newArticle
+    }
+
+    fun update(article: Article): Article {
+        return article
     }
 }
