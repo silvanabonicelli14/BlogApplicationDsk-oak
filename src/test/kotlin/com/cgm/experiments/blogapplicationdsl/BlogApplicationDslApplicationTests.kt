@@ -1,7 +1,7 @@
 package com.cgm.experiments.blogapplicationdsl
 
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ArticleRepository
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.*
@@ -19,7 +19,7 @@ class BlogApplicationDslApplicationTests {
     private lateinit var client: MockMvc
     private val mapper = jacksonObjectMapper()
 
-    private val articlesRepository = ArticleRepository()
+    private val articlesRepository = InMemoryArticlesRepository()
 
     private val expectedArticles = listOf(
         Article(1,"article x", "body article x"),
@@ -93,7 +93,7 @@ class BlogApplicationDslApplicationTests {
     fun `can create a new article`() {
         val expectedArticle = Article(0, "article z", "body of article z")
 
-        val articleStr = client.post("/api/articles"){
+        client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = mapper.writeValueAsString(expectedArticle)
