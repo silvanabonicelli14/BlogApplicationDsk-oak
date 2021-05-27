@@ -3,11 +3,9 @@ package com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories
 import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 
-class ArticleRepository : Repository<Article> {
-     private val articles = mutableListOf(
-         Article(1, "article x", "body article x"),
-         Article(2, "article y", "body article y")
-     )
+class ArticleRepository(initialValue: List<Article> = emptyList()): Repository<Article> {
+
+    private val articles = initialValue.toMutableList()
 
     override fun getAll() = articles
 

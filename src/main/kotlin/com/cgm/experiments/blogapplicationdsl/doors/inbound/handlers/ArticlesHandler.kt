@@ -1,23 +1,20 @@
 package com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers
 
+import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ArticleRepository
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 import java.net.URI
 
-object ArticlesHandler{
-    private val articleRepository  = ArticleRepository()
+class ArticlesHandler(private val repository: Repository<Article>){
 
     fun find(request: ServerRequest): ServerResponse = (request.inPath("id")
         ?.run(::getOne)
-        ?: okResponse(articleRepository.getAll()))
+        ?: okResponse(repository.getAll()))
 
     private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
-        articleRepository.getOne(intId)
+        repository.getOne(intId)
             ?.run(::okResponse)
             ?: ServerResponse.notFound().build()
         }
@@ -37,7 +34,7 @@ object ArticlesHandler{
         val body = request
             .body(Article::class.java)
         return body
-            .let { article ->  articleRepository.new(article)}
+            .let { article ->  repository.new(article)}
             .let {
                 article -> ServerResponse.created(URI("${request.toUri()}/api/articles/${article.id}")).body(article)
             }
@@ -48,7 +45,7 @@ object ArticlesHandler{
     fun update(request: ServerRequest): ServerResponse {
         val body = request
             .body(Article::class.java)
-        return articleRepository.update(body)
+        return repository.update(body)
             ?.run(::okResponse)
             ?:ServerResponse.notFound().build()
     }
@@ -58,7 +55,7 @@ object ArticlesHandler{
         ?: ServerResponse.notFound().build())
 
     private fun delete(id: String) = (id.toIntOrNull()?.let {intId ->
-        articleRepository.delete(intId)
+        repository.delete(intId)
             ?.run(::okResponse)
             ?: ServerResponse.notFound().build()
         }

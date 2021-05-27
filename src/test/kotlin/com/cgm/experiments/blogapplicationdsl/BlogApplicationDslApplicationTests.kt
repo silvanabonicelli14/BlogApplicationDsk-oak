@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.context.support.beans
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -27,6 +28,13 @@ class BlogApplicationDslApplicationTests {
     @BeforeAll
     internal fun setUp() {
         app = start()
+        {
+            beans {
+                bean { articlesRepository }
+                articlesRoutes()
+            }
+
+        }
         client = MockMvcBuilders
             .webAppContextSetup(app as WebApplicationContext)
             .build()

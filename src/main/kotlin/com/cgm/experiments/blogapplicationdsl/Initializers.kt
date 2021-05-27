@@ -1,6 +1,7 @@
 package com.cgm.experiments.blogapplicationdsl
 
 import com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers.ArticlesHandler
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ArticleRepository
 import org.springframework.context.support.BeanDefinitionDsl
 import org.springframework.context.support.beans
 import org.springframework.http.MediaType
@@ -8,19 +9,26 @@ import org.springframework.web.servlet.function.router
 
 
 fun initializeContext(): BeanDefinitionDsl = beans {
+    useArticleRepository()
     articlesRoutes()
+}
+
+fun BeanDefinitionDsl.useArticleRepository() {
+    bean { ArticleRepository() }
 }
 
 fun BeanDefinitionDsl.articlesRoutes() {
     bean {
         router {
             "api".nest {
-                GET("/articles", ArticlesHandler::find)
-                GET("/articles/{id}", ArticlesHandler::find)
-                DELETE("/articles/{id}", ArticlesHandler::remove)
+                val handler = ArticlesHandler(ref())
+
+                GET("/articles", handler::find)
+                GET("/articles/{id}", handler::find)
+                DELETE("/articles/{id}", handler::remove)
                 accept(MediaType.APPLICATION_JSON).nest {
-                    POST("/articles", ArticlesHandler::new)
-                    PUT("/articles/{id}", ArticlesHandler::update)
+                    POST("/articles", handler::new)
+                    PUT("/articles/{id}", handler::update)
                 }
             }
         }
