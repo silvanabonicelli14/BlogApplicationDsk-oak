@@ -1,25 +1,26 @@
 package com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories
 
+import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 
-class ArticleRepository{
+class ArticleRepository : Repository<Article> {
      private val articles = mutableListOf(
          Article(1, "article x", "body article x"),
          Article(2, "article y", "body article y")
      )
 
-    fun getAll() = articles
+    override fun getAll() = articles
 
-    fun getOne(id: Int) = articles.firstOrNull { it.id == id }
+    override fun getOne(id: Int) = articles.firstOrNull { it.id == id }
 
-    fun new(article: Article): Article {
+    override fun new(article: Article): Article {
         val maxId = articles.maxByOrNull { it.id }?.id ?: 0
         val newArticle = article.copy(id = maxId + 1)
         articles.add(newArticle)
         return newArticle
     }
 
-    fun update(article: Article): Article? {
+    override fun update(article: Article): Article? {
         return getOne(article.id)
             ?.let {
                 articles[articles.indexOf(it)] = article
@@ -27,10 +28,14 @@ class ArticleRepository{
             }
     }
 
-    fun delete(id: Int) = run {
+    override fun delete(id: Int) = run {
         getOne(id)
             ?.let {
                 articles.removeAt(articles.indexOf(it))
             }
+    }
+
+    fun reset(initialValue: List<Article> = emptyList()) = articles.clear().apply {
+        articles.addAll(initialValue)
     }
 }

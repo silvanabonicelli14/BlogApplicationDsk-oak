@@ -1,16 +1,15 @@
 package com.cgm.experiments.blogapplicationdsl
 
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ArticleRepository
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.*
-import org.springframework.boot.SpringApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BlogApplicationDslApplicationTests {
@@ -18,6 +17,8 @@ class BlogApplicationDslApplicationTests {
     private lateinit var app: ConfigurableApplicationContext
     private lateinit var client: MockMvc
     private val mapper = jacksonObjectMapper()
+
+    private val articlesRepository = ArticleRepository()
 
     private val expectedArticles = listOf(
         Article(1,"article x", "body article x"),
@@ -31,6 +32,11 @@ class BlogApplicationDslApplicationTests {
             .build()
     }
 
+    @BeforeEach
+    internal fun beforeEach() {
+        articlesRepository.reset(expectedArticles)
+    }
+
     @AfterAll
     internal fun tearDown() {
         app.close()
@@ -38,7 +44,6 @@ class BlogApplicationDslApplicationTests {
 
     @Test
     fun `can read all articles`() {
-
         client.get("/api/articles")
             .andExpect {
                 status { isOk() }
