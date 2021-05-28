@@ -57,7 +57,7 @@ fun BeanDefinitionDsl.connectToDb(connectionString: String, driver: String, user
 fun BeanDefinitionDsl.enableLiquibase () {
     bean {
         SpringLiquibase().apply{
-            changeLog = env["spring.liquibase.change-log"]
+            changeLog = env["app.liquibase.change-log"]
             dataSource = ref()
         }
     }
