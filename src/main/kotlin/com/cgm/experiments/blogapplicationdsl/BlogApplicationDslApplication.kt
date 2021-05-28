@@ -1,5 +1,7 @@
 package com.cgm.experiments.blogapplicationdsl
 
+import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
+import com.cgm.experiments.blogapplicationdsl.utils.ServerPort
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -29,18 +31,4 @@ fun start(
             ?.run { initializer() }
             ?: initializeContext())
     }
-}
-
-//TODO "Da spostare"
-interface ServerPort {
-    fun value(): Int
-}
-data class FixedServerPort(private val value: Int): ServerPort {
-    constructor(): this(RandomServerPort.value())
-    override fun value(): Int = value
-}
-object RandomServerPort : ServerPort {
-
-    override fun value(): Int = (10000..10500).random()
-
 }
