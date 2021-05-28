@@ -17,7 +17,8 @@ import javax.sql.DataSource
 
 fun initializeContext(): BeanDefinitionDsl = beans {
     //useArticleRepository()
-    connectToH2FromEnv()
+    //connectToH2FromEnv()
+    connectToPostgreFromEnv()
     enableLiquibase()
     useRepository()
     articlesRoutes()
@@ -29,6 +30,15 @@ fun BeanDefinitionDsl.connectToH2FromEnv() {
         env["spring.datasource.driverClassName"]!!,
         env["spring.datasource.username"]!!,
         env["spring.datasource.password"]!!
+    )
+}
+
+fun BeanDefinitionDsl.connectToPostgreFromEnv() {
+    connectToDb(
+        env["postgre.datasource.url"]!!,
+        env["postgre.datasource.driverClassName"]!!,
+        env["postgre.datasource.username"]!!,
+        env["postgre.datasource.password"]!!
     )
 }
 

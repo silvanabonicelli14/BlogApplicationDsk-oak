@@ -6,14 +6,14 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="createSchema" author="silvana.bonicelli">
         <sql endDelimiter=";">
-            CREATE SCHEMA Blog
+            CREATE SCHEMA blog
         </sql>
     </changeSet>
 
     <changeSet id="create_article_table" author="silvana.bonicelli">
         <createTable
                 tableName="articles"
-                schemaName="Blog"
+                schemaName="blog"
         >
             <column name="id" type="int" autoIncrement="true">
                 <constraints
