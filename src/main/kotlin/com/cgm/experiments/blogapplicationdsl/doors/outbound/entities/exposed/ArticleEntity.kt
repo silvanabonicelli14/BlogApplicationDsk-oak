@@ -1,4 +1,4 @@
-package com.cgm.experiments.blogapplicationdsl.doors.outbound.entities
+package com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

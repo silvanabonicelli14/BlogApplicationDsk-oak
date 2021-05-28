@@ -2,8 +2,8 @@ package com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories
 
 import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.ArticleDao
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.ArticleEntity
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleDao
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleEntity
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
 

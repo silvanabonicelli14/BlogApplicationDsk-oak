@@ -2,12 +2,10 @@ package com.cgm.experiments.blogapplicationdsl.integration
 
 import com.cgm.experiments.blogapplicationdsl.*
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.ArticleDao
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.ArticleEntity
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleDao
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.helpers.TestHelpers
 import io.kotest.matchers.shouldBe
-import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
@@ -23,8 +21,8 @@ class ExposedArticleRepositoryTest {
         app = start(RandomServerPort){
             beans {
                 //connectToH2FromEnv()
-                connectToPostgreFromEnv()
                 enableLiquibase()
+                connectToPostgreFromEnv()
             }
         }
 //        transaction {

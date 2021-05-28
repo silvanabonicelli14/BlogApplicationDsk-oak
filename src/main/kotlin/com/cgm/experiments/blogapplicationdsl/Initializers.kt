@@ -14,7 +14,6 @@ import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.router
 import javax.sql.DataSource
 
-
 fun initializeContext(): BeanDefinitionDsl = beans {
     //useArticleRepository()
     //connectToH2FromEnv()
@@ -26,10 +25,10 @@ fun initializeContext(): BeanDefinitionDsl = beans {
 
 fun BeanDefinitionDsl.connectToH2FromEnv() {
     connectToDb(
-        env["spring.datasource.url"]!!,
-        env["spring.datasource.driverClassName"]!!,
-        env["spring.datasource.username"]!!,
-        env["spring.datasource.password"]!!
+        env["h2.datasource.url"]!!,
+        env["h2.datasource.driverClassName"]!!,
+        env["h2.datasource.username"]!!,
+        env["h2.datasource.password"]!!
     )
 }
 
@@ -52,7 +51,7 @@ fun BeanDefinitionDsl.connectToDb(connectionString: String, driver: String, user
     }
     val dataSource = HikariDataSource(config)
     Database.connect(dataSource)
-    bean<DataSource> { dataSource }
+    bean <DataSource> { dataSource }
 }
 
 fun BeanDefinitionDsl.enableLiquibase () {
