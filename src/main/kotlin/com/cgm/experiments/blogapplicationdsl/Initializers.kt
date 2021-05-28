@@ -5,7 +5,6 @@ import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.Expose
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import liquibase.Liquibase
 import liquibase.integration.spring.SpringLiquibase
 import org.jetbrains.exposed.sql.Database
 import org.springframework.context.support.BeanDefinitionDsl
@@ -13,22 +12,23 @@ import org.springframework.context.support.beans
 import org.springframework.core.env.get
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.router
+import javax.sql.DataSource
 
 
 fun initializeContext(): BeanDefinitionDsl = beans {
     //useArticleRepository()
     connectToH2FromEnv()
-    useRepository()
     enableLiquibase()
+    useRepository()
     articlesRoutes()
 }
 
 fun BeanDefinitionDsl.connectToH2FromEnv() {
     connectToDb(
-        env["blogapplicationdsl.connnectionstring"]!!,
-        env["blogapplicationdsl.driver"]!!,
-        env["blogapplicationdsl.username"]!!,
-        env["blogapplicationdsl.password"]!!
+        env["spring.datasource.url"]!!,
+        env["spring.datasource.driverClassName"]!!,
+        env["spring.datasource.username"]!!,
+        env["spring.datasource.password"]!!
     )
 }
 
@@ -42,12 +42,13 @@ fun BeanDefinitionDsl.connectToDb(connectionString: String, driver: String, user
     }
     val dataSource = HikariDataSource(config)
     Database.connect(dataSource)
+    bean<DataSource> { dataSource }
 }
 
 fun BeanDefinitionDsl.enableLiquibase () {
     bean {
         SpringLiquibase().apply{
-            changeLog = env["blogapplicationdsl.liquibase.change-log"]
+            changeLog = env["spring.liquibase.change-log"]
             dataSource = ref()
         }
     }
