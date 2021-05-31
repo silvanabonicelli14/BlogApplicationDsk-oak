@@ -12,13 +12,15 @@ import org.springframework.context.support.beans
 import org.springframework.core.env.get
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.router
+import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
 
 fun initializeContext(): BeanDefinitionDsl = beans {
     //useArticleRepository()
-    //connectToH2FromEnv()
-    connectToPostgreFromEnv()
-    enableLiquibase()
+    connectToH2FromEnv()
+    env["app.liquibase.change"]
+        ?.run(::enableLiquibase)
+        ?://TODO "controllo parametro vuoto-> loggo errore o eccezione loggata"
     useRepository()
     articlesRoutes()
 }
@@ -32,14 +34,23 @@ fun BeanDefinitionDsl.connectToH2FromEnv() {
     )
 }
 
-fun BeanDefinitionDsl.connectToPostgreFromEnv() {
+fun BeanDefinitionDsl.connectToPostgreFromEnv(postgreSQLContainer: PostgreSQLContainer<Nothing>) {
     connectToDb(
-        env["postgre.datasource.url"]!!,
-        env["postgre.datasource.driverClassName"]!!,
-        env["postgre.datasource.username"]!!,
-        env["postgre.datasource.password"]!!
+        postgreSQLContainer.jdbcUrl,
+        "org.postgresql.Driver",
+        postgreSQLContainer.username,
+        postgreSQLContainer.password
     )
 }
+
+//fun BeanDefinitionDsl.connectToPostgreFromEnv() {
+//    connectToDb(
+//        env["postgre.datasource.url"]!!,
+//        env["postgre.datasource.driverClassName"]!!,
+//        env["postgre.datasource.username"]!!,
+//        env["postgre.datasource.password"]!!
+//    )
+//}
 
 fun BeanDefinitionDsl.connectToDb(connectionString: String, driver: String, username: String, password: String) {
     val config = HikariConfig().apply {
@@ -54,10 +65,10 @@ fun BeanDefinitionDsl.connectToDb(connectionString: String, driver: String, user
     bean <DataSource> { dataSource }
 }
 
-fun BeanDefinitionDsl.enableLiquibase () {
+fun BeanDefinitionDsl.enableLiquibase (filepath: String ) {
     bean {
         SpringLiquibase().apply{
-            changeLog = env["app.liquibase.change-log"]
+            changeLog = filepath
             dataSource = ref()
         }
     }
