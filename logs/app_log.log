@@ -1,0 +1,42 @@
+[INFO ] 2021-05-31 15:05:12.233 [main] BlogApplicationDslApplicationKt - Starting BlogApplicationDslApplicationKt using Java 16 on NCOS000037 with PID 27360 (D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak\target\classes started by silvana.bonicelli in D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak)
+[INFO ] 2021-05-31 15:05:12.251 [main] BlogApplicationDslApplicationKt - No active profile set, falling back to default profiles: default
+[INFO ] 2021-05-31 15:05:15.330 [main] BlogApplicationDslApplicationKt - Started BlogApplicationDslApplicationKt in 3.955 seconds (JVM running for 5.191)
+[INFO ] 2021-05-31 15:05:25.172 [http-nio-8080-exec-1] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:05:25.172 [http-nio-8080-exec-1] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:05:25.176 [http-nio-8080-exec-1] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:14:59.644 [main] BlogApplicationDslApplicationKt - Starting BlogApplicationDslApplicationKt using Java 16 on NCOS000037 with PID 4092 (D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak\target\classes started by silvana.bonicelli in D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak)
+[INFO ] 2021-05-31 15:14:59.660 [main] BlogApplicationDslApplicationKt - No active profile set, falling back to default profiles: default
+[INFO ] 2021-05-31 15:15:03.089 [main] BlogApplicationDslApplicationKt - Started BlogApplicationDslApplicationKt in 4.256 seconds (JVM running for 5.607)
+[INFO ] 2021-05-31 15:15:04.059 [http-nio-8080-exec-2] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:15:04.060 [http-nio-8080-exec-2] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:15:04.060 [http-nio-8080-exec-2] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:15:54.178 [main] BlogApplicationDslApplicationKt - Starting BlogApplicationDslApplicationKt using Java 16 on NCOS000037 with PID 23600 (D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak\target\classes started by silvana.bonicelli in D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak)
+[INFO ] 2021-05-31 15:15:54.195 [main] BlogApplicationDslApplicationKt - No active profile set, falling back to default profiles: default
+[INFO ] 2021-05-31 15:15:57.385 [main] BlogApplicationDslApplicationKt - Started BlogApplicationDslApplicationKt in 4.1 seconds (JVM running for 5.409)
+[INFO ] 2021-05-31 15:16:01.608 [http-nio-8080-exec-2] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:16:01.609 [http-nio-8080-exec-2] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:16:01.609 [http-nio-8080-exec-2] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:18:06.621 [main] BlogApplicationDslApplicationKt - Starting BlogApplicationDslApplicationKt using Java 16 on NCOS000037 with PID 25700 (D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak\target\classes started by silvana.bonicelli in D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak)
+[INFO ] 2021-05-31 15:18:06.638 [main] BlogApplicationDslApplicationKt - No active profile set, falling back to default profiles: default
+[INFO ] 2021-05-31 15:18:09.848 [main] BlogApplicationDslApplicationKt - Started BlogApplicationDslApplicationKt in 4.04 seconds (JVM running for 5.231)
+[INFO ] 2021-05-31 15:18:10.001 [http-nio-8080-exec-2] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:18:10.001 [http-nio-8080-exec-2] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:18:10.001 [http-nio-8080-exec-2] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:31:23.437 [main] BlogApplicationDslApplicationKt - Starting BlogApplicationDslApplicationKt using Java 16 on NCOS000037 with PID 4272 (D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak\target\classes started by silvana.bonicelli in D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak)
+[INFO ] 2021-05-31 15:31:23.458 [main] BlogApplicationDslApplicationKt - No active profile set, falling back to default profiles: default
+[INFO ] 2021-05-31 15:31:26.783 [main] BlogApplicationDslApplicationKt - Started BlogApplicationDslApplicationKt in 4.254 seconds (JVM running for 5.556)
+[INFO ] 2021-05-31 15:37:37.543 [http-nio-8080-exec-1] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:37:37.543 [http-nio-8080-exec-1] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:37:37.543 [http-nio-8080-exec-1] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:38:01.838 [main] BlogApplicationDslApplicationKt - Starting BlogApplicationDslApplicationKt using Java 16 on NCOS000037 with PID 22420 (D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak\target\classes started by silvana.bonicelli in D:\Corsi formazione\Kotlin\BlogApplicationDsk-oak)
+[INFO ] 2021-05-31 15:38:01.858 [main] BlogApplicationDslApplicationKt - No active profile set, falling back to default profiles: default
+[INFO ] 2021-05-31 15:38:05.194 [main] BlogApplicationDslApplicationKt - Started BlogApplicationDslApplicationKt in 4.209 seconds (JVM running for 6.881)
+[INFO ] 2021-05-31 15:38:05.429 [http-nio-8080-exec-2] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:38:05.429 [http-nio-8080-exec-2] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:38:05.429 [http-nio-8080-exec-2] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:38:10.789 [http-nio-8080-exec-6] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:38:10.790 [http-nio-8080-exec-6] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:38:10.791 [http-nio-8080-exec-6] ArticlesHandler - Error message
+[INFO ] 2021-05-31 15:38:24.272 [http-nio-8080-exec-4] ArticlesHandler - Info message
+[WARN ] 2021-05-31 15:38:24.272 [http-nio-8080-exec-4] ArticlesHandler - Warn message
+[ERROR] 2021-05-31 15:38:24.272 [http-nio-8080-exec-4] ArticlesHandler - Error message

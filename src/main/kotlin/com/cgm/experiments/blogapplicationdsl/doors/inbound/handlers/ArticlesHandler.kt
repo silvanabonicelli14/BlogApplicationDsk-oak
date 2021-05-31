@@ -1,6 +1,5 @@
 package com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers
 
-import com.cgm.experiments.blogapplicationdsl.BlogApplicationDslApplication
 import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import org.apache.logging.log4j.LogManager
