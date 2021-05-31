@@ -15,11 +15,11 @@ import org.springframework.web.servlet.function.router
 import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
 
-
 fun initializeContext(): BeanDefinitionDsl = beans {
     useArticleRepository()
     connectToH2FromEnv()
     articlesRoutes()
+  //  enableSecurity()
     enableLiquibase(env["app.liquibase.change-log"]!!)
 
 //    env["app.liquibase.change-log"]
@@ -28,6 +28,17 @@ fun initializeContext(): BeanDefinitionDsl = beans {
 
     //useRepository()
 }
+
+//fun BeanDefinitionDsl.enableSecurity() {
+//    bean{
+//        val http : HttpSecurity = ref()
+//        http.authorizeRequests()
+//            .antMatchers("/api/articles/**")
+//            .permitAll()
+//            .and()
+//            .httpBasic();
+//    }
+//}
 
 fun BeanDefinitionDsl.connectToH2FromEnv() {
     connectToDb(

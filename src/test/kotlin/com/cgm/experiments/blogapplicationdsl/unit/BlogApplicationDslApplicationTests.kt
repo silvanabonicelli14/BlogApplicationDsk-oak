@@ -3,8 +3,6 @@ package com.cgm.experiments.blogapplicationdsl.unit
 import com.cgm.experiments.blogapplicationdsl.articlesRoutes
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleDao
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticlesCommentDao
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.cgm.experiments.blogapplicationdsl.start
@@ -58,6 +56,7 @@ class BlogApplicationDslApplicationTests {
             beans {
                 bean { articlesRepository }
                 articlesRoutes()
+                //enableSecurity()
             }
         }
         client = MockMvcBuilders

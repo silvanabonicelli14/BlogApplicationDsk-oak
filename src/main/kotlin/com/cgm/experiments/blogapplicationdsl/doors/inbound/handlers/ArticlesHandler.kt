@@ -1,7 +1,10 @@
 package com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers
 
+import com.cgm.experiments.blogapplicationdsl.BlogApplicationDslApplication
 import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
@@ -9,9 +12,18 @@ import java.net.URI
 
 class ArticlesHandler(private val repository: Repository<Article>){
 
-    fun find(request: ServerRequest): ServerResponse = (request.inPath("id")
-        ?.run(::getOne)
-        ?: okResponse(repository.getAll()))
+    private val logger: Logger = LogManager.getLogger(ArticlesHandler::class.java)
+
+    fun find(request: ServerRequest): ServerResponse {
+        logger.debug("Debug message");
+        logger.info("Info message");
+        logger.warn("Warn message");
+        logger.error("Error message");
+
+        return (request.inPath("id")
+            ?.run(::getOne)
+            ?: okResponse(repository.getAll()))
+    }
 
     private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
         repository.getOne(intId)

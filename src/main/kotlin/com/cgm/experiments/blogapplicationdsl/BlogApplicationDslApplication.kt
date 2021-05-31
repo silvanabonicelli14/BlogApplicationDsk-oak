@@ -1,6 +1,8 @@
 package com.cgm.experiments.blogapplicationdsl
 
 import com.cgm.experiments.blogapplicationdsl.utils.ServerPort
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -12,7 +14,11 @@ import org.springframework.context.support.BeanDefinitionDsl
 @EnableAutoConfiguration(exclude = [DataSourceAutoConfiguration::class])
 class BlogApplicationDslApplication
 
+
+
+
 fun main(args: Array<String>) {
+
     start(FixedServerPort(8080),args)
 }
 
