@@ -30,4 +30,30 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet author="silvana.bonicelli" id="01_createTableArticleComments">
+        <comment>Create the table articleComments</comment>
+        <createTable tableName="articlecomments" schemaName="Blog">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        nullable="false"
+                        uniqueConstraintName="PK_articlecomments_table"
+                />
+            </column>
+            <column name="author" type="varchar"/>
+            <column name="comment" type="varchar"/>
+            <column name="article_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="silvana.bonicelli" id="create_foreign_key_articlecomments">
+        <addForeignKeyConstraint  baseColumnNames="article_id"
+                                  baseTableName="articlecomments"
+                                  baseTableSchemaName="Blog"
+                                  constraintName="fk_article_comments"
+                                  onDelete="NO ACTION"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="id"
+                                  referencedTableName="articles"
+                                  referencedTableSchemaName="Blog"  />
+    </changeSet>
 </databaseChangeLog>

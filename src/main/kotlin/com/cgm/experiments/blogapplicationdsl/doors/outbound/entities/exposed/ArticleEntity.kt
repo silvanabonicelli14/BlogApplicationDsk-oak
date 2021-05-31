@@ -19,4 +19,19 @@ class ArticleDao(id: EntityID<Int>) : IntEntity(id){
 
     var title by ArticleEntity.title
     var body by ArticleEntity.body
+    val comments by ArticlesCommentDao referrersOn ArticleCommentEntity.article_id
+}
+
+object ArticleCommentEntity : IntIdTable("Blog.articlecomments") {
+
+    val comment: Column<String> = varchar("comment", 2000)
+    val article_id = reference("article_id",ArticleEntity.id)
+}
+
+class ArticlesCommentDao(id: EntityID<Int>) : IntEntity(id){
+    companion object : IntEntityClass<ArticlesCommentDao>(ArticleCommentEntity)
+
+    var comment by ArticleCommentEntity.comment
+    var article by ArticleDao referencedOn ArticleCommentEntity.article_id
+
 }

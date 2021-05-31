@@ -1,6 +1,5 @@
 package com.cgm.experiments.blogapplicationdsl
 
-import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
 import com.cgm.experiments.blogapplicationdsl.utils.ServerPort
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -9,9 +8,7 @@ import org.springframework.boot.runApplication
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.support.BeanDefinitionDsl
 
-
 @SpringBootApplication
-
 @EnableAutoConfiguration(exclude = [DataSourceAutoConfiguration::class])
 class BlogApplicationDslApplication
 

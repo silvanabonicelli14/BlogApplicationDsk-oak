@@ -2,11 +2,16 @@ package com.cgm.experiments.blogapplicationdsl.unit
 
 import com.cgm.experiments.blogapplicationdsl.articlesRoutes
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
+import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleDao
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticlesCommentDao
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.cgm.experiments.blogapplicationdsl.start
 import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.support.beans
@@ -24,9 +29,27 @@ class BlogApplicationDslApplicationTests {
 
     private val articlesRepository = InMemoryArticlesRepository()
 
-    private val expectedArticles = listOf(
-        Article(1,"article x", "body article x"),
-        Article(2,"article y", "body article y"))
+    private val initialComments = listOf<ArticleComment>(
+        ArticleComment(1, "comment of the article x", 1),
+        ArticleComment(2, "comment of the article x", 1)
+    )
+
+    private val initialArticles = listOf(
+        Article(1, "title x", "body of the article x", initialComments),
+        Article(2, "title y", "body of the article y",mutableListOf<ArticleComment>()))
+
+
+    private fun withExpected(test: (articles: List<Article>) -> Unit): Unit{
+        transaction{
+            ExposedArticleRepository().reset()
+            initialArticles
+                .map(ExposedArticleRepository()::new)
+
+            initialComments.map(ExposedArticleRepository()::newComment)
+        }
+        initialArticles.let(test)
+    }
+
 
     @BeforeAll
     internal fun setUp() {
@@ -44,7 +67,7 @@ class BlogApplicationDslApplicationTests {
 
     @BeforeEach
     internal fun beforeEach() {
-        articlesRepository.reset(expectedArticles)
+        articlesRepository.reset(initialArticles)
     }
 
     @AfterAll
@@ -58,14 +81,14 @@ class BlogApplicationDslApplicationTests {
             .andExpect {
                 status { isOk() }
                 content { contentType(MediaType.APPLICATION_JSON) }
-                content { json(mapper.writeValueAsString(expectedArticles)) }
+                content { json(mapper.writeValueAsString(initialArticles)) }
             }
     }
 
     @Test
     fun `can read one article`() {
-        val id = 2
-        val expectedArticle = expectedArticles.first { it.id == id }
+        val id = 1
+        val expectedArticle = initialArticles.first { it.id == id }
 
         client.get("/api/articles/$id")
             .andExpect {
@@ -93,7 +116,7 @@ class BlogApplicationDslApplicationTests {
 
     @Test
     fun `can create a new article`() {
-        val expectedArticle = Article(0, "article z", "body of article z")
+        val expectedArticle = Article(0, "article z", "body of article z", listOf())
 
         client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON
@@ -117,7 +140,7 @@ class BlogApplicationDslApplicationTests {
 
     @Test
     fun `can modify an article`() {
-        val modifiedArticle = Article(1, "MODIFIED article x", "body article x")
+        val modifiedArticle = Article(1, "MODIFIED article x", "body article x", listOf())
         val articleStr = client.put("/api/articles/1"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
@@ -138,7 +161,7 @@ class BlogApplicationDslApplicationTests {
 
     @Test
     fun `cannot modify an article because not found`() {
-        val modifiedArticle = Article(9999, "MODIFIED article x", "body article x")
+        val modifiedArticle = Article(9999, "MODIFIED article x", "body article x", listOf())
         client.put("/api/articles/9999"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
@@ -169,4 +192,6 @@ class BlogApplicationDslApplicationTests {
                 status { isNotFound() }
             }
     }
+
+
 }

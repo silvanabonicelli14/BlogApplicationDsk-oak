@@ -15,14 +15,18 @@ import org.springframework.web.servlet.function.router
 import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
 
+
 fun initializeContext(): BeanDefinitionDsl = beans {
-    //useArticleRepository()
+    useArticleRepository()
     connectToH2FromEnv()
-    env["app.liquibase.change"]
-        ?.run(::enableLiquibase)
-        ?://TODO "controllo parametro vuoto-> loggo errore o eccezione loggata"
-    useRepository()
     articlesRoutes()
+    enableLiquibase(env["app.liquibase.change-log"]!!)
+
+//    env["app.liquibase.change-log"]
+//        ?.run(::enableLiquibase)
+//        ?://TODO "controllo parametro vuoto-> loggo errore o eccezione loggata"
+
+    //useRepository()
 }
 
 fun BeanDefinitionDsl.connectToH2FromEnv() {
