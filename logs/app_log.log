@@ -40,3 +40,24 @@
 [INFO ] 2021-05-31 15:38:24.272 [http-nio-8080-exec-4] ArticlesHandler - Info message
 [WARN ] 2021-05-31 15:38:24.272 [http-nio-8080-exec-4] ArticlesHandler - Warn message
 [ERROR] 2021-05-31 15:38:24.272 [http-nio-8080-exec-4] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:36.779 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:36.786 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:36.786 [main] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:37.443 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:37.444 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:37.444 [main] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:37.456 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:37.457 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:37.457 [main] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:37.471 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:37.471 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:37.471 [main] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:37.477 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:37.477 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:37.477 [main] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:37.485 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:37.485 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:37.485 [main] ArticlesHandler - Error message
+[INFO ] 2021-06-01 10:11:37.489 [main] ArticlesHandler - Info message
+[WARN ] 2021-06-01 10:11:37.489 [main] ArticlesHandler - Warn message
+[ERROR] 2021-06-01 10:11:37.490 [main] ArticlesHandler - Error message

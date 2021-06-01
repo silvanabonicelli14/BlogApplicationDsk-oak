@@ -40,7 +40,6 @@
                         uniqueConstraintName="PK_articlecomments_table"
                 />
             </column>
-            <column name="author" type="varchar"/>
             <column name="comment" type="varchar"/>
             <column name="article_id" type="int"/>
         </createTable>
@@ -55,5 +54,28 @@
                                   referencedColumnNames="id"
                                   referencedTableName="articles"
                                   referencedTableSchemaName="blog"  />
+    </changeSet>
+    <changeSet author="silvana.bonicelli" id="01_createTableAuthor">
+        <comment>Create the table Author</comment>
+        <createTable tableName="authors" schemaName="blog">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        nullable="false"
+                        uniqueConstraintName="PK_authors_table"
+                />
+            </column>
+            <column name="name" type="varchar"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="silvana.bonicelli" id="01_author_id">
+        <comment>Add column author_id to table articles</comment>
+        <addColumn tableName="articles"  schemaName="blog" >
+            <column
+                    name="author_id"
+                    type="int">
+            <constraints nullable="true" />
+        </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

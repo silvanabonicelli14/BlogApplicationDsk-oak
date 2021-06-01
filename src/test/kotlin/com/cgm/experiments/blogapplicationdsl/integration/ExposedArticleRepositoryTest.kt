@@ -4,6 +4,7 @@ import com.cgm.experiments.blogapplicationdsl.connectToH2FromEnv
 import com.cgm.experiments.blogapplicationdsl.connectToPostgreFromEnv
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
+import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleDao
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticlesCommentDao
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
@@ -29,6 +30,7 @@ class ExposedArticleRepositoryTest {
     private lateinit var app: ConfigurableApplicationContext
     private val initialArticles = TestHelpers.articles
     private val initialComments = TestHelpers.initialComments
+    private val initialAuthors = TestHelpers.authors
 
     companion object{
         @Container
@@ -39,8 +41,9 @@ class ExposedArticleRepositoryTest {
     internal fun setUp() {
         app = start(RandomServerPort){
             beans {
-                connectToH2FromEnv()
+                //connectToH2FromEnv()
                 //connectToPostgreFromEnv(container)
+                connectToPostgreFromEnv()
                 enableLiquibase("classpath:/liquibase/db-changelog-master.xml")
             }
         }
@@ -61,7 +64,10 @@ class ExposedArticleRepositoryTest {
 
     @Test
     fun `can create a new article`() {
-        ExposedArticleRepository().new(Article(3,"myArticle","contentArticle", listOf<ArticleComment>()))
+      transaction {
+        ExposedArticleRepository().reset()
+        ExposedArticleRepository().new(Article(1,"myArticle","contentArticle", listOf<ArticleComment>(), Author(1, "Author")))
+        }
     }
 
     @Test
@@ -79,6 +85,7 @@ class ExposedArticleRepositoryTest {
 
     private fun withExpected(test: (articles: List<Article>) -> Unit): Unit{
         transaction{
+            initialAuthors.map(ExposedArticleRepository()::newAuthor)
             initialArticles
                 .map(ExposedArticleRepository()::new)
 

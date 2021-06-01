@@ -58,14 +58,14 @@ fun BeanDefinitionDsl.connectToPostgreFromEnv(postgreSQLContainer: PostgreSQLCon
     )
 }
 
-//fun BeanDefinitionDsl.connectToPostgreFromEnv() {
-//    connectToDb(
-//        env["postgre.datasource.url"]!!,
-//        env["postgre.datasource.driverClassName"]!!,
-//        env["postgre.datasource.username"]!!,
-//        env["postgre.datasource.password"]!!
-//    )
-//}
+fun BeanDefinitionDsl.connectToPostgreFromEnv() {
+    connectToDb(
+        env["postgre.datasource.url"]!!,
+        env["postgre.datasource.driverClassName"]!!,
+        env["postgre.datasource.username"]!!,
+        env["postgre.datasource.password"]!!
+    )
+}
 
 fun BeanDefinitionDsl.connectToDb(connectionString: String, driver: String, username: String, password: String) {
     val config = HikariConfig().apply {
