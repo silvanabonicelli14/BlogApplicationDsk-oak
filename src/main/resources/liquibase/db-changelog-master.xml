@@ -32,7 +32,7 @@
     </changeSet>
     <changeSet author="silvana.bonicelli" id="01_createTableArticleComments">
         <comment>Create the table articleComments</comment>
-        <createTable tableName="articlecomments" schemaName="Blog">
+        <createTable tableName="articlecomments" schemaName="blog">
             <column name="id" type="int" autoIncrement="true">
                 <constraints
                         primaryKey="true"
@@ -48,12 +48,12 @@
     <changeSet author="silvana.bonicelli" id="create_foreign_key_articlecomments">
         <addForeignKeyConstraint  baseColumnNames="article_id"
                                   baseTableName="articlecomments"
-                                  baseTableSchemaName="Blog"
+                                  baseTableSchemaName="blog"
                                   constraintName="fk_article_comments"
                                   onDelete="NO ACTION"
                                   onUpdate="CASCADE"
                                   referencedColumnNames="id"
                                   referencedTableName="articles"
-                                  referencedTableSchemaName="Blog"  />
+                                  referencedTableSchemaName="blog"  />
     </changeSet>
 </databaseChangeLog>

@@ -5,9 +5,9 @@ import org.testcontainers.containers.PostgreSQLContainer
 object MyPostgresContainer {
     val container by lazy {
         PostgreSQLContainer<Nothing>("postgres:latest").apply {
-            withDatabaseName("test")
-            withUsername("sa")
-            withPassword("sa")
+            withDatabaseName("oak")
+            withUsername("silvana")
+            withPassword("pass")
             withExposedPorts(5432)
         }
     }

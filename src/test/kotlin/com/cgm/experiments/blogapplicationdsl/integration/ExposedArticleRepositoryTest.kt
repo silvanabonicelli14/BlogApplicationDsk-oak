@@ -60,15 +60,15 @@ class ExposedArticleRepositoryTest {
     }
 
     @Test
+    fun `can create a new article`() {
+        ExposedArticleRepository().new(Article(3,"myArticle","contentArticle", listOf<ArticleComment>()))
+    }
+
+    @Test
     fun `test getAll from repo`() {
         withExpected { expectedArticles ->
             ExposedArticleRepository().getAll() shouldBe expectedArticles
         }
-    }
-
-    @Test
-    fun `can create a new article`() {
-        ExposedArticleRepository().new(Article(1,"myArticle","contentArticle", listOf<ArticleComment>()))
     }
 
     @Test
@@ -79,7 +79,6 @@ class ExposedArticleRepositoryTest {
 
     private fun withExpected(test: (articles: List<Article>) -> Unit): Unit{
         transaction{
-            ExposedArticleRepository().reset()
             initialArticles
                 .map(ExposedArticleRepository()::new)
 

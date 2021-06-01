@@ -32,7 +32,6 @@ class ExposedArticleRepository: Repository<Article> {
 
     fun newComment(commentArticle: ArticleComment): ArticleComment = transaction {
         ArticleCommentEntity.insert {
-            it[id] = commentArticle.id
             it[comment] = commentArticle.comment
             it[article_id] = commentArticle.article
         }
@@ -51,6 +50,7 @@ class ExposedArticleRepository: Repository<Article> {
 
     fun reset() = transaction {
         ArticleEntity.deleteAll()
+        ArticleCommentEntity.deleteAll()
         Unit
     }
 
