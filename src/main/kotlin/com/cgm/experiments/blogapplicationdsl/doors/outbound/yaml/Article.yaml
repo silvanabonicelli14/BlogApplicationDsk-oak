@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+   title: "Blog Application"
+   version: "fileVersion"
+
+servers:
+   - url: http://localhost:{port}/api/articles/{version}
+     variables:
+      version:
+        default: '1'
+      port:
+        default: '8080'
+
+paths:
+   /articles:
+      get:
+         summary: Get all articles
+         responses:
+            '200':
+               description: A list of articles.
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           $ref: '#/components/schemas/Article'
+
+   /articles/{articleId}:
+      get:
+         summary: Get an Article
+         description: Returns an article for givenn id
+         parameters:
+         - in: path
+           name: articleId
+           required: true
+           schema:
+              type: string
+           description: Articles Id
+
+         responses:
+            '200':
+               description: 'Returned Correctly'
+               content:
+                  application/vnd.api+json:
+                     schema:
+                        $ref: '#/components/schemas/Article'
+            '500':
+               description: "Internal error"
+
+            '404':
+               description: "not found"
+
+components:
+   schemas:
+
+
+      Article:
+         type: object
+         properties:
+            id:
+               type: string
+            type:
+               type: string
+            attributes:
+               type: object
+               properties:
+                  title:
+                     type: string
+                  body:
+                     type: string
+            relationships:
+              type: object
+              properties:
+                comments:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          comment:
+                            type: string
+                author:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+         required:
+            - data
+

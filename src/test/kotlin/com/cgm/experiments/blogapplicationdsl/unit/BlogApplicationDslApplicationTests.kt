@@ -12,6 +12,7 @@ import com.cgm.experiments.blogapplicationdsl.start
 import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.toedter.spring.hateoas.jsonapi.MediaTypes
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
@@ -31,8 +32,6 @@ class BlogApplicationDslApplicationTests {
     private val articlesRepository = InMemoryArticlesRepository()
 
     private val initialArticles = TestHelpers.articles
-    private val initialComments = TestHelpers.initialComments
-    private val initialAuthors = TestHelpers.authors
 
     @BeforeAll
     internal fun setUp() {
@@ -66,6 +65,7 @@ class BlogApplicationDslApplicationTests {
                 status { isOk() }
 //                content { contentType(MediaType.APPLICATION_JSON) }
 //                content { json(mapper.writeValueAsString(initialArticles)) }
+                content { contentType(MediaTypes.JSON_API) }
                 content { initialArticles }
             }
     }
@@ -78,7 +78,7 @@ class BlogApplicationDslApplicationTests {
         client.get("/api/articles/$id")
             .andExpect {
                 status { isOk() }
-//                content { contentType(MediaType.APPLICATION_JSON) }
+                content { contentType(MediaTypes.JSON_API) }
 //                content { json(mapper.writeValueAsString(expectedArticle)) }
                 content { expectedArticle }
             }
@@ -120,6 +120,7 @@ class BlogApplicationDslApplicationTests {
             client.get("/api/articles/${article.id}")
                 .andExpect {
                     status { isOk() }
+                    content { contentType(MediaTypes.JSON_API) }
 //                    content { json(mapper.writeValueAsString(article)) }
                     content { article }
 
