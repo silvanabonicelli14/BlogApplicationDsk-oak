@@ -7,13 +7,36 @@ servers:
    - url: http://localhost:{port}/api/articles/{version}
      variables:
       version:
-        default: '1'
+        default: 'v1'
       port:
         default: '8080'
 
 paths:
+
    /articles:
+      post:
+         tags:
+         - "articles"
+         summary: "Add a new article to the App"
+         description: ""
+         parameters:
+            - in: "header"
+              name: "body"
+              description: "Article to add"
+              required: true
+              schema:
+                $ref: '#/components/schemas/Article'
+         responses:
+            '201':
+               description: Article Created.
+               content:
+                  application/vnd.api+json:
+                     schema:
+                        $ref: '#/components/schemas/Article'
+
       get:
+         tags:
+         - "articles"
          summary: Get all articles
          responses:
             '200':
@@ -27,6 +50,8 @@ paths:
 
    /articles/{articleId}:
       get:
+         tags:
+         - "articles"
          summary: Get an Article
          description: Returns an article for givenn id
          parameters:
@@ -50,9 +75,56 @@ paths:
             '404':
                description: "not found"
 
+   /users:
+      post:
+         tags:
+         - "users"
+         summary: "Add a new author to the App"
+         description: ""
+         parameters:
+            - in: "header"
+              name: "body"
+              description: "User to add"
+              required: true
+              schema:
+                $ref: '#/components/schemas/Author'
+         responses:
+            '201':
+               description: Article Created.
+               content:
+                  application/vnd.api+json:
+                     schema:
+                        $ref: '#/components/schemas/Author'
+
+      get:
+         tags:
+         - "users"
+         summary: Get all articles
+         responses:
+            '200':
+               description: A list of articles.
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           $ref: '#/components/schemas/Article'
+
 components:
    schemas:
 
+      Author:
+        type: object
+        properties:
+            id:
+               type: string
+            type:
+               type: string
+            attributes:
+               type: object
+               properties:
+                  name:
+                     type: string
 
       Article:
          type: object
@@ -68,6 +140,8 @@ components:
                      type: string
                   body:
                      type: string
+                  author:
+                     $ref: "#/definitions/Author"
             relationships:
               type: object
               properties:
@@ -83,16 +157,7 @@ components:
                             type: string
                           comment:
                             type: string
-                author:
-                  type: object
-                  properties:
-                    data:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
+
          required:
             - data
 
