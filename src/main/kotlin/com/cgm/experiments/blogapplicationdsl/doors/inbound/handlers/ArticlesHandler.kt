@@ -2,6 +2,7 @@ package com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers
 
 import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
+import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder.jsonApiModel
 import com.toedter.spring.hateoas.jsonapi.MediaTypes
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.Logger
 import org.springframework.hateoas.PagedModel
 import org.springframework.hateoas.RepresentationModel
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 import java.net.URI
@@ -18,7 +20,7 @@ import java.net.URI
 class ArticlesHandler(private val repository: Repository<Article>) {
 
     private val logger: Logger = LogManager.getLogger(ArticlesHandler::class.java)
-
+    @GetMapping("/{id}")
     fun find(request: ServerRequest): ServerResponse {
         logger.debug("Debug message");
         logger.info("Info message");
@@ -84,7 +86,8 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         return ServerResponse.ok()
             .contentType(MediaTypes.JSON_API)
             .body(
-                articleToRepresentationModel(article)
+                //articleToRepresentationModel(article)
+                Adapter.articleDtoAdapter(article)
             )
     }
 
@@ -95,9 +98,10 @@ class ArticlesHandler(private val repository: Repository<Article>) {
             .model(articleDto)
             .relationship("comments", articleDto.comments)
             .relationship("author", articleDto.author)
+            .included(articleDto.comments)
+            .included(articleDto.author)
             .build()
     }
-
 
     private fun ServerRequest.inPath(name: String): String? = try {
         pathVariable(name)

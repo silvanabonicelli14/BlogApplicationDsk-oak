@@ -79,7 +79,8 @@ class BlogApplicationDslApplicationTests {
             .andExpect {
                 status { isOk() }
                 content { contentType(MediaTypes.JSON_API) }
-//                content { json(mapper.writeValueAsString(expectedArticle)) }
+//              content { contentType(MediaType.APPLICATION_JSON) }
+//              content { json(mapper.writeValueAsString(expectedArticle)) }
                 content { expectedArticle }
             }
     }
@@ -121,6 +122,7 @@ class BlogApplicationDslApplicationTests {
                 .andExpect {
                     status { isOk() }
                     content { contentType(MediaTypes.JSON_API) }
+//                    content { contentType(MediaType.APPLICATION_JSON) }
 //                    content { json(mapper.writeValueAsString(article)) }
                     content { article }
 
