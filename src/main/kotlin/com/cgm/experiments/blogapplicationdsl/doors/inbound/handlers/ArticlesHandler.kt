@@ -4,6 +4,8 @@ import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.ArticleDtoManual
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.ArticleForInsertDto
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder.jsonApiModel
 import com.toedter.spring.hateoas.jsonapi.MediaTypes
 import org.apache.logging.log4j.LogManager
@@ -45,9 +47,9 @@ class ArticlesHandler(private val repository: Repository<Article>) {
 
     fun new(request: ServerRequest): ServerResponse {
         val body = request
-            .body(Article::class.java)
+            .body(ArticleDtoManual::class.java)
         return body
-            .let { article ->  repository.new(article)}
+            .let { article ->  repository.new(Adapter.articleDtoForInsertAdapter(article))}
             .let {
                     article -> ServerResponse.created(URI("${request.toUri()}/api/articles/${article.id}")).body(article)
             }
