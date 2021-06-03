@@ -4,8 +4,10 @@ import com.cgm.experiments.blogapplicationdsl.articlesRoutes
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
+import com.cgm.experiments.blogapplicationdsl.helpers.TestHelpers
 import com.cgm.experiments.blogapplicationdsl.start
 import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -28,34 +30,9 @@ class BlogApplicationDslApplicationTests {
 
     private val articlesRepository = InMemoryArticlesRepository()
 
-    val initilaAuthors = listOf(
-        Author(1, "Author 1"),
-        Author(2, "Author 2")
-    )
-
-    val initialComments = listOf<ArticleComment>(
-        ArticleComment(1,  "comment of the article x", 1),
-        ArticleComment(2, "comment of the article x", 1)
-    )
-
-    val initialArticles = listOf(
-        Article(1, "title x", "body of the article x", initialComments,initilaAuthors[0]),
-        Article(2, "title y", "body of the article y",mutableListOf<ArticleComment>(),initilaAuthors[1]))
-
-
-
-    private fun withExpected(test: (articles: List<Article>) -> Unit): Unit{
-        transaction{
-            ExposedArticleRepository().reset()
-            initilaAuthors.map(ExposedArticleRepository()::newAuthor)
-            initialArticles
-                .map(ExposedArticleRepository()::new)
-
-            initialComments.map(ExposedArticleRepository()::newComment)
-        }
-        initialArticles.let(test)
-    }
-
+    private val initialArticles = TestHelpers.articles
+    private val initialComments = TestHelpers.initialComments
+    private val initialAuthors = TestHelpers.authors
 
     @BeforeAll
     internal fun setUp() {
@@ -87,21 +64,23 @@ class BlogApplicationDslApplicationTests {
         client.get("/api/articles")
             .andExpect {
                 status { isOk() }
-                content { contentType(MediaType.APPLICATION_JSON) }
-                content { json(mapper.writeValueAsString(initialArticles)) }
+//                content { contentType(MediaType.APPLICATION_JSON) }
+//                content { json(mapper.writeValueAsString(initialArticles)) }
+                content { initialArticles }
             }
     }
 
     @Test
     fun `can read one article`() {
         val id = 1
-        val expectedArticle = initialArticles.first { it.id == id }
+        val expectedArticle = Adapter.articleAdapter(initialArticles.first { it.id == id })
 
         client.get("/api/articles/$id")
             .andExpect {
                 status { isOk() }
-                content { contentType(MediaType.APPLICATION_JSON) }
-                content { json(mapper.writeValueAsString(expectedArticle)) }
+//                content { contentType(MediaType.APPLICATION_JSON) }
+//                content { json(mapper.writeValueAsString(expectedArticle)) }
+                content { expectedArticle }
             }
     }
 
@@ -125,6 +104,7 @@ class BlogApplicationDslApplicationTests {
     fun `can create a new article`() {
         val expectedArticle = Article(0, "article z", "body of article z", listOf(), Author(1,"Author"))
 
+
         client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
@@ -140,7 +120,9 @@ class BlogApplicationDslApplicationTests {
             client.get("/api/articles/${article.id}")
                 .andExpect {
                     status { isOk() }
-                    content { json(mapper.writeValueAsString(article)) }
+//                    content { json(mapper.writeValueAsString(article)) }
+                    content { article }
+
                 }
         }
     }
@@ -162,7 +144,8 @@ class BlogApplicationDslApplicationTests {
         client.get("/api/articles/${actualArticle.id}")
             .andExpect {
                 status { isOk() }
-                content { json(mapper.writeValueAsString(modifiedArticle)) }
+//                content { json(mapper.writeValueAsString(modifiedArticle)) }
+                content { modifiedArticle }
             }
     }
 

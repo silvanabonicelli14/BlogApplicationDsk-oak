@@ -24,16 +24,3 @@ class ArticleDao(id: EntityID<Int>) : IntEntity(id){
     val author by AuthorDao referencedOn ArticleEntity.author_id
 }
 
-object ArticleCommentEntity : IntIdTable("Blog.articlecomments") {
-
-    val comment: Column<String> = varchar("comment", 2000)
-    val article_id = reference("article_id",ArticleEntity.id)
-}
-
-class ArticlesCommentDao(id: EntityID<Int>) : IntEntity(id){
-    companion object : IntEntityClass<ArticlesCommentDao>(ArticleCommentEntity)
-
-    var comment by ArticleCommentEntity.comment
-    var article by ArticleDao referencedOn ArticleCommentEntity.article_id
-
-}

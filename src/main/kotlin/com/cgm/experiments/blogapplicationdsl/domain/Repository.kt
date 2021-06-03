@@ -1,6 +1,6 @@
 package com.cgm.experiments.blogapplicationdsl.domain
 
-interface Repository<T> {
+interface Repository<T>  {
     fun getAll(): MutableList<T>
     fun getOne(id: Int): T?
     fun new(article: T): T

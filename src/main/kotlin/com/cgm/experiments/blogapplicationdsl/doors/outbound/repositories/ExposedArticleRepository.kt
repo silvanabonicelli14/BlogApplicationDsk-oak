@@ -24,12 +24,16 @@ class ExposedArticleRepository: Repository<Article> {
 
     override fun new(article: Article): Article = transaction {
 
+//        val author = newAuthor(article.author)
+//        article.comments.map(::newComment)
+
         val id = ArticleEntity.insertAndGetId {
             it[id] = article.id
             it[title] = article.title
             it[body] = article.body
             it[author_id] = article.author.id
         }
+
         Article(id.value, article.title, article.body,article.comments,article.author)
     }
 

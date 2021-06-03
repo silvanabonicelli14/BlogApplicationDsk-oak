@@ -35,3 +35,7 @@ build/
 .vscode/
 /logs
 /prova.json
+logs/app_log.log
+.gitignore
+/logs/*.log
+/logs

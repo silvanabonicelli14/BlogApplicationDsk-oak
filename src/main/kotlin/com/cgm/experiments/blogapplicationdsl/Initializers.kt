@@ -16,9 +16,11 @@ import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
 
 fun initializeContext(): BeanDefinitionDsl = beans {
-    useArticleRepository()
-    connectToH2FromEnv()
+    useRepository()
+    //connectToH2FromEnv()
     articlesRoutes()
+    connectToPostgreFromEnv()
+
   //  enableSecurity()
     enableLiquibase(env["app.liquibase.change-log"]!!)
 
