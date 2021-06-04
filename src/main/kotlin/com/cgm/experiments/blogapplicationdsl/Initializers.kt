@@ -16,7 +16,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
 
 fun initializeContext(): BeanDefinitionDsl = beans {
-    useRepository()
+    useArticleRepository()
     //connectToH2FromEnv()
     articlesRoutes()
     connectToPostgreFromEnv()

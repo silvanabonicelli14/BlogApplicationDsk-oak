@@ -5,9 +5,7 @@ import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.ArticleDtoManual
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.Attributes
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.AttributesAuthor
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.*
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.cgm.experiments.blogapplicationdsl.helpers.TestHelpers
@@ -107,10 +105,16 @@ class BlogApplicationDslApplicationTests {
     @Test
     fun `can create a new article`() {
         //val expectedArticle = Article(0, "article z", "body of article z", listOf(), Author(1,"Author"))
-        val expectedArticle = ArticleDtoManual(
+//        val expectedArticle = ArticleDtoManual(
+//            0,
+//            "articles",
+//            Attributes("article z","body of article z",listOf(), AttributesAuthor(1,"Author")))
+
+        val expectedArticle = ArticleForInsertDto(
             0,
             "articles",
-            Attributes("article z","body of article z",listOf(), AttributesAuthor(1,"Author")))
+            AttributesInsert("article z","body of article z"),
+            Relationships(Comments(listOf(DAT(1, "comment 1"),DAT(2, "comment 2"))),Author(DAT(1,"Author"))))
 
         client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON

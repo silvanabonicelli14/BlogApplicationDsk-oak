@@ -23,26 +23,26 @@ class Adapter {
                 )
             )
         }
-
-        fun articleDtoForInsertAdapter(article: ArticleDtoManual): Article {
-            return Article(
-                article.id,
-                article.attributes.title,
-                article.attributes.body,
-                article.attributes.comments.map { ArticleComment(it.id, it.comment,article.id) },
-                Author(article.attributes.author.id, article.attributes.author.name)
-                )
-        }
-
-//        fun articleDtoForInsertAdapter(article: ArticleForInsertDto): Article {
+//
+//        fun articleDtoForInsertAdapter(article: ArticleDtoManual): Article {
 //            return Article(
 //                article.id,
 //                article.attributes.title,
 //                article.attributes.body,
-//                article.relationships.comments.data.map { ArticleComment(it.id, it.type,article.id) },
-//                Author(article.relationships.author.data.id, article.relationships.author.data.t)
-//            )
+//                article.attributes.comments.map { ArticleComment(it.id, it.comment,article.id) },
+//                Author(article.attributes.author.id, article.attributes.author.name)
+//                )
 //        }
+
+        fun articleDtoForInsertAdapter(article: ArticleForInsertDto): Article {
+            return Article(
+                article.id,
+                article.attributes.title,
+                article.attributes.body,
+                article.relationships.comments.data.map { ArticleComment(it.id, it.type,article.id) },
+                Author(article.relationships.author.data.id, article.relationships.author.data.type)
+            )
+        }
 
     }
 }

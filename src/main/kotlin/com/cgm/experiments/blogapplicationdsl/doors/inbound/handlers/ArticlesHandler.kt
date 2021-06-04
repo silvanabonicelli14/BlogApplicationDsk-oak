@@ -47,7 +47,7 @@ class ArticlesHandler(private val repository: Repository<Article>) {
 
     fun new(request: ServerRequest): ServerResponse {
         val body = request
-            .body(ArticleDtoManual::class.java)
+            .body(ArticleForInsertDto::class.java)
         return body
             .let { article ->  repository.new(Adapter.articleDtoForInsertAdapter(article))}
             .let {
