@@ -11,6 +11,8 @@ import org.springframework.context.support.BeanDefinitionDsl
 import org.springframework.context.support.beans
 import org.springframework.core.env.get
 import org.springframework.http.MediaType
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.web.servlet.function.router
 import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
@@ -31,21 +33,21 @@ fun initializeContext(): BeanDefinitionDsl = beans {
     //useRepository()
 }
 
-//fun BeanDefinitionDsl.enableSecurity() {
-//    bean{
-//        object : WebSecurityConfigurerAdapter(){
-//            override fun configure(http: HttpSecurity) {
-//                http.authorizeRequests { auth ->
-//                    auth
-//                        .antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
-//                        .antMatchers("/public/**").permitAll()
-//                        .antMatchers("/**").denyAll()
-//
-//                }.httpBasic()
-//            }
-//        }
-//    }
-//}
+fun BeanDefinitionDsl.enableSecurity() {
+    bean{
+        object : WebSecurityConfigurerAdapter(){
+            override fun configure(http: HttpSecurity) {
+                http.authorizeRequests { auth ->
+                    auth
+                        .antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
+                        .antMatchers("/public/**").permitAll()
+                        .antMatchers("/**").denyAll()
+
+                }.httpBasic()
+            }
+        }
+    }
+}
 
 fun BeanDefinitionDsl.connectToH2FromEnv() {
     connectToDb(

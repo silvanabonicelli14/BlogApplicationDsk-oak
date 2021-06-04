@@ -1,12 +1,6 @@
 package com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos
 
-import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
-import com.cgm.experiments.blogapplicationdsl.domain.model.Author
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.toedter.spring.hateoas.jsonapi.JsonApiRelationships
-import com.toedter.spring.hateoas.jsonapi.JsonApiType
-
-data class ArticleDto(
+data class ArticleDto(//for doing jsonApi throw spring-hateoas-jsonapi library
     val id: Int,
     val title: String,
     val body: String,
@@ -20,12 +14,14 @@ data class ArticleCommentDto (
     val article: Int
 )
 
-
 data class AuthorDto (
     val id: Int,
     val name: String)
 
-data class ArticleDtoManual (
+
+
+
+data class ArticleDtoManual (//for doing jsonApi manually
     val id: Int,
     val type: String,
     val attributes: Attributes
