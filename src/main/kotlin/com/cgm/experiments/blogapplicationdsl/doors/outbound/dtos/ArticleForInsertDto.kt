@@ -18,14 +18,14 @@ data class Relationships (
 )
 
 data class Author (
-    val data: DAT
+    val data: Data
 )
 
-data class DAT (
+data class Data (
     val id: Int,
     val type: String
 )
 
 data class Comments (
-    val data: List<DAT>
+    val data: List<Data>
 )

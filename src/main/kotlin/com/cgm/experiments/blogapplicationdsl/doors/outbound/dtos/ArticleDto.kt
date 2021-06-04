@@ -10,9 +10,20 @@ data class ArticleDto(
     val id: Int,
     val title: String,
     val body: String,
-    val comments: List<ArticleComment>,
-    val author: Author
+    val comments: List<ArticleCommentDto>,
+    val author: AuthorDto
 )
+
+data class ArticleCommentDto (
+    val id: Int,
+    val comment: String,
+    val article: Int
+)
+
+
+data class AuthorDto (
+    val id: Int,
+    val name: String)
 
 data class ArticleDtoManual (
     val id: Int,

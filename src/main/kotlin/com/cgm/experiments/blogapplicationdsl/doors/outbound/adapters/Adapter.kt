@@ -8,7 +8,13 @@ import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.*
 class Adapter {
     companion object AdapterFactory {
         fun articleAdapter(article: Article): ArticleDto =
-            ArticleDto(article.id, article.title, article.body, article.comments, article.author)
+            ArticleDto(
+                article.id,
+                article.title,
+                article.body,
+                article.comments.map { ArticleCommentDto(it.id, it.comment, it.article) },
+                AuthorDto(article.author.id, article.author.name)
+            )
 
         fun articleDtoAdapter(article: Article): ArticleDtoManual {
             val listOfComments = article.comments.map { Comment(it.id, it.comment) }

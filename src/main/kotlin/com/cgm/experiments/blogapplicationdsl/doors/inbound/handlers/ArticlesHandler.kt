@@ -88,8 +88,8 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         return ServerResponse.ok()
             .contentType(MediaTypes.JSON_API)
             .body(
-                //articleToRepresentationModel(article)
-                Adapter.articleDtoAdapter(article)
+                articleToRepresentationModel(article)
+                //Adapter.articleDtoAdapter(article)
             )
     }
 

@@ -21,7 +21,7 @@ fun initializeContext(): BeanDefinitionDsl = beans {
     articlesRoutes()
     connectToPostgreFromEnv()
 
-  //  enableSecurity()
+    //enableSecurity()
     enableLiquibase(env["app.liquibase.change-log"]!!)
 
 //    env["app.liquibase.change-log"]
@@ -33,12 +33,17 @@ fun initializeContext(): BeanDefinitionDsl = beans {
 
 //fun BeanDefinitionDsl.enableSecurity() {
 //    bean{
-//        val http : HttpSecurity = ref()
-//        http.authorizeRequests()
-//            .antMatchers("/api/articles/**")
-//            .permitAll()
-//            .and()
-//            .httpBasic();
+//        object : WebSecurityConfigurerAdapter(){
+//            override fun configure(http: HttpSecurity) {
+//                http.authorizeRequests { auth ->
+//                    auth
+//                        .antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
+//                        .antMatchers("/public/**").permitAll()
+//                        .antMatchers("/**").denyAll()
+//
+//                }.httpBasic()
+//            }
+//        }
 //    }
 //}
 

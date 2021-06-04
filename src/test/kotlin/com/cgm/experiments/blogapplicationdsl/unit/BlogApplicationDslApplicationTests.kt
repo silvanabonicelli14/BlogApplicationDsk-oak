@@ -2,11 +2,9 @@ package com.cgm.experiments.blogapplicationdsl.unit
 
 import com.cgm.experiments.blogapplicationdsl.articlesRoutes
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
-import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.*
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.cgm.experiments.blogapplicationdsl.helpers.TestHelpers
 import com.cgm.experiments.blogapplicationdsl.start
@@ -14,7 +12,6 @@ import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.toedter.spring.hateoas.jsonapi.MediaTypes
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.support.beans
@@ -114,7 +111,7 @@ class BlogApplicationDslApplicationTests {
             0,
             "articles",
             AttributesInsert("article z","body of article z"),
-            Relationships(Comments(listOf(DAT(1, "comment 1"),DAT(2, "comment 2"))),Author(DAT(1,"Author"))))
+            Relationships(Comments(listOf(Data(1, "comment 1"),Data(2, "comment 2"))),Author(Data(1,"Author"))))
 
         client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON
