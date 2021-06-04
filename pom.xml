@@ -144,36 +144,65 @@
             <artifactId>springdoc-openapi-webflux-ui</artifactId>
             <version>1.5.2</version>
         </dependency>
-         </dependencies>
+    </dependencies>
 
-            <build>
-                <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-                <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
+    <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <configuration>
+                    <args>
+                        <arg>-Xjsr305=strict</arg>
+                    </args>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                    </compilerPlugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
                         <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-plugin</artifactId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>5.1.0</version>
+                <executions>
+                    <execution>
+                        <id>articles</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
                         <configuration>
-                            <args>
-                                <arg>-Xjsr305=strict</arg>
-                            </args>
-                            <compilerPlugins>
-                                <plugin>spring</plugin>
-                            </compilerPlugins>
+                            <inputSpec>${project.basedir}/api/resources/article.yaml</inputSpec>
+                            <generatorName>kotlin-spring</generatorName>
+                            <output>${project.basedir}</output>
+                            <configHelp>false</configHelp>
+                            <skip>false</skip>
+                            <modelPackage>com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles</modelPackage>
+                            <generateApis>false</generateApis>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateModels>true</generateModels>
+                            <configOptions>
+                                <sourceFolder>src/main/kotlin</sourceFolder>
+                                <gradleBuildFile>false</gradleBuildFile>
+                                <serializationLibrary>jackson</serializationLibrary>
+                            </configOptions>
                         </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.jetbrains.kotlin</groupId>
-                                <artifactId>kotlin-maven-allopen</artifactId>
-                                <version>${kotlin.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-        </project>
+</project>

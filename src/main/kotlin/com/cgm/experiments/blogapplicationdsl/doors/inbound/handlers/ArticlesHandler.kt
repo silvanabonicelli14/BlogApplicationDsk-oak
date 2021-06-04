@@ -98,10 +98,8 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         val articleDto = Adapter.articleAdapter(article)
         return jsonApiModel()
             .model(articleDto)
-            .relationship("comments", articleDto.comments)
-            .relationship("author", articleDto.author)
-            .included(articleDto.comments)
-            .included(articleDto.author)
+            .relationship("comments", articleDto.relationships?.comments?.data!!)
+            .relationship("author", articleDto.attributes?.author!!)
             .build()
     }
 

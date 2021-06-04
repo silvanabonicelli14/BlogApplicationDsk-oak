@@ -4,16 +4,30 @@ import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.*
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.*
 
 class Adapter {
     companion object AdapterFactory {
         fun articleAdapter(article: Article): ArticleDto =
             ArticleDto(
-                article.id,
-                article.title,
-                article.body,
-                article.comments.map { ArticleCommentDto(it.id, it.comment, it.article) },
-                AuthorDto(article.author.id, article.author.name)
+                article.id.toString(),
+                "articles",
+                ArticleAttributes(
+                    article.title,
+                    article.body,
+                    com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
+                        article.author.id.toString(), "authors",
+                        AuthorAttributes(article.author.name)
+                    )
+                ),
+                ArticleRelationships(
+                    ArticleRelationshipsComments(article.comments.map {
+                        ArticleRelationshipsCommentsData(
+                            it.id.toString(),
+                            it.comment
+                        )
+                    })
+                )
             )
 
         fun articleDtoAdapter(article: Article): ArticleDtoManual {

@@ -1,6 +1,6 @@
 package com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos
 
-data class ArticleDto(//for doing jsonApi throw spring-hateoas-jsonapi library
+data class ArticleDto2(//for doing jsonApi throw spring-hateoas-jsonapi library
     val id: Int,
     val title: String,
     val body: String,

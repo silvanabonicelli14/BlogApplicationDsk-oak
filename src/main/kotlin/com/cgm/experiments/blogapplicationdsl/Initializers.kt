@@ -31,6 +31,7 @@ fun initializeContext(): BeanDefinitionDsl = beans {
 //        ?://TODO "controllo parametro vuoto-> loggo errore o eccezione loggata"
 
     //useRepository()
+    //enableSecurity()
 }
 
 fun BeanDefinitionDsl.enableSecurity() {
@@ -39,10 +40,9 @@ fun BeanDefinitionDsl.enableSecurity() {
             override fun configure(http: HttpSecurity) {
                 http.authorizeRequests { auth ->
                     auth
-                        .antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
+                        .antMatchers("/api/**").hasRole("ADMIN")
                         .antMatchers("/public/**").permitAll()
                         .antMatchers("/**").denyAll()
-
                 }.httpBasic()
             }
         }
