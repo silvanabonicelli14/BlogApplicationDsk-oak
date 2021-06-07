@@ -20,12 +20,12 @@ import javax.validation.Valid
  */
 data class Author(
 
-    @field:JsonProperty("id") val id: kotlin.String? = null,
+    @field:JsonProperty("id") val id: kotlin.String,
 
-    @field:JsonProperty("type") val type: kotlin.String? = null,
+    @field:JsonProperty("type") val type: kotlin.String,
 
     @field:Valid
-    @field:JsonProperty("attributes") val attributes: AuthorAttributes? = null
+    @field:JsonProperty("attributes") val attributes: AuthorAttributes
 ) {
 
 }

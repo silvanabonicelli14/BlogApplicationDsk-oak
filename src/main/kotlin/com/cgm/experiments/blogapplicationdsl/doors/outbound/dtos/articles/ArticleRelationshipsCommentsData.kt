@@ -18,9 +18,9 @@ import javax.validation.Valid
  */
 data class ArticleRelationshipsCommentsData(
 
-    @field:JsonProperty("id") val id: kotlin.String? = null,
+    @field:JsonProperty("id") val id: kotlin.String,
 
-    @field:JsonProperty("comment") val comment: kotlin.String? = null
+    @field:JsonProperty("type") val type: kotlin.String
 ) {
 
 }

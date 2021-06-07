@@ -21,7 +21,7 @@ class Adapter {
                     )
                 ),
                 ArticleRelationships(
-                    ArticleRelationshipsComments(article.comments.map {
+                    ArticleRelationshipsComments(article.comments?.map {
                         ArticleRelationshipsCommentsData(
                             it.id.toString(),
                             it.comment
@@ -30,19 +30,69 @@ class Adapter {
                 )
             )
 
-        fun articleDtoAdapter(article: Article): ArticleDtoManual {
-            val listOfComments = article.comments.map { Comment(it.id, it.comment) }
-            return ArticleDtoManual(
-                article.id,
-                "articles",
-                Attributes(
-                    article.title,
-                    article.body,
-                    listOfComments,
-                    AttributesAuthor(article.author.id, article.author.name)
+//        fun articleDtoAdapter(article: Article): ArticleDtoManual {
+//            val listOfComments = article.comments?.map { Comment(it.id, it.comment) }
+//            return ArticleDtoManual(
+//                article.id,
+//                "articles",
+//                Attributes(
+//                    article.title,
+//                    article.body,
+//                    listOfComments,
+//                    AttributesAuthor(article.author.id, article.author.name)
+//                )
+//            )
+//        }
+
+        fun articlesDtoAdapter(article: List<Article>): List<ArticleDto> {
+
+            return article.map {
+                ArticleDto(
+                    it.id.toString(),
+                    "articles",
+                    ArticleAttributes(
+                        it.title,
+                        it.body,
+                        com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
+                            it.author.id.toString(),
+                            "authors",
+                            AuthorAttributes(it.author.name)
+                        )
+                    ),
+                    ArticleRelationships(ArticleRelationshipsComments(it.comments?.map { comm ->
+                        ArticleRelationshipsCommentsData(
+                            comm.id.toString(),
+                            "articlecomments"
+                        )
+                    }))
                 )
-            )
+            }
         }
+
+        fun articleDtoAdapter(article: Article): ArticleDto {
+
+            return ArticleDto(
+                    article.id.toString(),
+                    "articles",
+                    ArticleAttributes(
+                        article.title,
+                        article.body,
+                        com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
+                            article.author.id.toString(),
+                            "authors",
+                            AuthorAttributes(article.author.name)
+                        )
+                    ),
+                    ArticleRelationships(ArticleRelationshipsComments(article.comments?.map { comm ->
+                        ArticleRelationshipsCommentsData(
+                            comm.id.toString(),
+                            "articlecomments"
+                        )
+                    }))
+                )
+        }
+
+
 //
 //        fun articleDtoForInsertAdapter(article: ArticleDtoManual): Article {
 //            return Article(
@@ -54,13 +104,13 @@ class Adapter {
 //                )
 //        }
 
-        fun articleDtoForInsertAdapter(article: ArticleForInsertDto): Article {
+        fun articleDtoForInsertAdapter(article: ArticleDto): Article {
             return Article(
-                article.id,
+                article.id.toInt(),
                 article.attributes.title,
                 article.attributes.body,
-                article.relationships.comments.data.map { ArticleComment(it.id, it.type,article.id) },
-                Author(article.relationships.author.data.id, article.relationships.author.data.type)
+                article.relationships.comments?.data?.map { ArticleComment(it.id?.toInt()!!, it.type,article.id.toInt()) },
+                Author(article.attributes.author.id.toInt(), article.attributes.author.attributes.name)
             )
         }
 

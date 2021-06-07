@@ -1,12 +1,9 @@
 package com.cgm.experiments.blogapplicationdsl.integration
 
-import com.cgm.experiments.blogapplicationdsl.connectToH2FromEnv
 import com.cgm.experiments.blogapplicationdsl.connectToPostgreFromEnv
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticleDao
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.ArticlesCommentDao
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.ExposedArticleRepository
 import com.cgm.experiments.blogapplicationdsl.enableLiquibase
 import com.cgm.experiments.blogapplicationdsl.helpers.MyPostgresContainer
@@ -14,13 +11,10 @@ import com.cgm.experiments.blogapplicationdsl.helpers.TestHelpers
 import com.cgm.experiments.blogapplicationdsl.start
 import com.cgm.experiments.blogapplicationdsl.utils.RandomServerPort
 import io.kotest.matchers.shouldBe
-import org.jetbrains.exposed.sql.SizedCollection
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.*
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.support.beans
-import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.get
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 

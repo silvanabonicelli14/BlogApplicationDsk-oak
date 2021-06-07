@@ -19,9 +19,9 @@ import javax.sql.DataSource
 
 fun initializeContext(): BeanDefinitionDsl = beans {
     useArticleRepository()
-    //connectToH2FromEnv()
+    connectToH2FromEnv()
     articlesRoutes()
-    connectToPostgreFromEnv()
+    //connectToPostgreFromEnv()
 
     //enableSecurity()
     enableLiquibase(env["app.liquibase.change-log"]!!)

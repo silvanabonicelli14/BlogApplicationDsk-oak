@@ -22,15 +22,15 @@ import javax.validation.Valid
  */
 data class ArticleDto(
 
-    @field:JsonProperty("id") val id: kotlin.String? = null,
+    @field:JsonProperty("id") val id: kotlin.String,
 
-    @field:JsonProperty("type") val type: kotlin.String? = null,
-
-    @field:Valid
-    @field:JsonProperty("attributes") val attributes: ArticleAttributes? = null,
+    @field:JsonProperty("type") val type: kotlin.String,
 
     @field:Valid
-        @field:JsonProperty("relationships") val relationships: ArticleRelationships? = null
+    @field:JsonProperty("attributes") val attributes: ArticleAttributes,
+
+    @field:Valid
+    @field:JsonProperty("relationships") val relationships: ArticleRelationships
 ) {
 
 }

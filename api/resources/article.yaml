@@ -141,7 +141,7 @@ components:
                   body:
                      type: string
                   author:
-                     $ref: "#/definitions/Author"
+                     $ref: '#/components/schemas/Author'
             relationships:
               type: object
               properties:
@@ -155,7 +155,7 @@ components:
                         properties:
                           id:
                             type: string
-                          comment:
+                          type:
                             type: string
 
          required:

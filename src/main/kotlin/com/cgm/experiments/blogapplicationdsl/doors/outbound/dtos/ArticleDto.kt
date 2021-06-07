@@ -27,10 +27,10 @@ data class ArticleDtoManual (//for doing jsonApi manually
     val attributes: Attributes
 )
 
-data class Attributes (
+data class Attributes(
     val title: String,
     val body: String,
-    val comments: List<Comment>,
+    val comments: List<Comment>?,
     val author: AttributesAuthor
 )
 

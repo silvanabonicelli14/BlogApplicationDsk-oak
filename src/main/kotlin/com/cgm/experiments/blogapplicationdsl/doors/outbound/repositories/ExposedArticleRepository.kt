@@ -6,7 +6,6 @@ import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.entities.exposed.*
 import org.jetbrains.exposed.sql.deleteAll
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.transaction
 

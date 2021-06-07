@@ -2,22 +2,18 @@ package com.cgm.experiments.blogapplicationdsl.doors.inbound.handlers
 
 import com.cgm.experiments.blogapplicationdsl.domain.Repository
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
-import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.ArticleDtoManual
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.ArticleForInsertDto
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleDto
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder.jsonApiModel
 import com.toedter.spring.hateoas.jsonapi.MediaTypes
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import org.springframework.hateoas.PagedModel
 import org.springframework.hateoas.RepresentationModel
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 import java.net.URI
-
 
 class ArticlesHandler(private val repository: Repository<Article>) {
 
@@ -45,13 +41,26 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         ?.run(::delete)
         ?: ServerResponse.notFound().build())
 
+//    With DTOS manual
+
+//    fun new(request: ServerRequest): ServerResponse {
+//        val body = request
+//            .body(ArticleForInsertDto::class.java)
+//        return body
+//            .let { article ->  repository.new(Adapter.articleDtoForInsertAdapter(article))}
+//            .let {
+//                    article -> ServerResponse.created(URI("${request.toUri()}/api/articles/${article.id}")).body(article)
+//            }
+//    }
+
+    // With dtos generate by OPENAPITOOLS library
     fun new(request: ServerRequest): ServerResponse {
         val body = request
-            .body(ArticleForInsertDto::class.java)
+            .body(ArticleDto::class.java)
         return body
-            .let { article ->  repository.new(Adapter.articleDtoForInsertAdapter(article))}
-            .let {
-                    article -> ServerResponse.created(URI("${request.toUri()}/api/articles/${article.id}")).body(article)
+            .let { article ->
+                repository.new(Adapter.articleDtoForInsertAdapter(article))
+                ServerResponse.created(URI("${request.toUri()}/api/articles/${article.id}")).body(article)
             }
     }
 
@@ -68,29 +77,45 @@ class ArticlesHandler(private val repository: Repository<Article>) {
 
 
 
+//    With manual and spring-hateoas-jsonapi library
+//
+//    private fun okArticoleDtoResponseAll(articles: List<Article>): ServerResponse {
+//        val articlesList: List<RepresentationModel<*>> = articles.map { articleToRepresentationModel(it) }
+//
+//        val pageMetadata = PagedModel.PageMetadata(10, 1, 100, 10)
+//        val pagedModel: PagedModel<RepresentationModel<*>> = PagedModel.of(articlesList, pageMetadata)
+//
+//        return ServerResponse.ok()
+//            .contentType(MediaTypes.JSON_API)
+//            .body(
+//                jsonApiModel()
+//                    .model(pagedModel)
+//                    .pageMeta()
+//                    .build()
+//            )
+//    }
+
     private fun okArticoleDtoResponseAll(articles: List<Article>): ServerResponse {
-        val articlesList: List<RepresentationModel<*>> = articles.map { articleToRepresentationModel(it) }
-
-        val pageMetadata = PagedModel.PageMetadata(10, 1, 100, 10)
-        val pagedModel: PagedModel<RepresentationModel<*>> = PagedModel.of(articlesList, pageMetadata)
-
         return ServerResponse.ok()
             .contentType(MediaTypes.JSON_API)
             .body(
-                jsonApiModel()
-                    .model(pagedModel)
-                    .pageMeta()
-                    .build()
+                Adapter.articlesDtoAdapter(articles)
             )
     }
+
+//    private fun okArticleDtoResponse(article: Article): ServerResponse {
+//        return ServerResponse.ok()
+//            .contentType(MediaTypes.JSON_API)
+//            .body(
+//                articleToRepresentationModel(article)
+//                //Adapter.articleDtoAdapter(article)
+//            )
+//    }
 
     private fun okArticleDtoResponse(article: Article): ServerResponse {
         return ServerResponse.ok()
             .contentType(MediaTypes.JSON_API)
-            .body(
-                articleToRepresentationModel(article)
-                //Adapter.articleDtoAdapter(article)
-            )
+            .body(Adapter.articleDtoAdapter(article))
     }
 
 

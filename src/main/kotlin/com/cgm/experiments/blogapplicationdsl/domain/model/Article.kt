@@ -3,6 +3,6 @@ data class Article(
     val id: Int,
     val title: String,
     val body: String,
-    val comments: List<ArticleComment>,
+    val comments: List<ArticleComment>?,
     val author: Author
 )
