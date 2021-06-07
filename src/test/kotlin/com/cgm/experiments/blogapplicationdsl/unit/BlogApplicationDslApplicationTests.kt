@@ -5,6 +5,7 @@ import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.*
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.*
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.repositories.InMemoryArticlesRepository
 import com.cgm.experiments.blogapplicationdsl.helpers.TestHelpers
 import com.cgm.experiments.blogapplicationdsl.start
@@ -107,11 +108,31 @@ class BlogApplicationDslApplicationTests {
 //            "articles",
 //            Attributes("article z","body of article z",listOf(), AttributesAuthor(1,"Author")))
 
-        val expectedArticle = ArticleForInsertDto(
-            0,
+//        val expectedArticle = ArticleForInsertDto(
+//            0,
+//            "articles",
+//            AttributesInsert("article z","body of article z"),
+//            Relationships(Comments(listOf(Data(1, "comment 1"),Data(2, "comment 2"))),Author(Data(1,"Author"))))
+
+        val expectedArticle = ArticleDto(
+            "3",
             "articles",
-            AttributesInsert("article z","body of article z"),
-            Relationships(Comments(listOf(Data(1, "comment 1"),Data(2, "comment 2"))),Author(Data(1,"Author"))))
+            ArticleAttributes(
+                "title 1",
+                "body 1",
+                com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
+                    "1", "authors", AuthorAttributes("Author 1")
+                )
+            ),
+            ArticleRelationships(
+                ArticleRelationshipsComments(
+                    listOf(
+                        ArticleRelationshipsCommentsData("1", "articlecomments"),
+                        ArticleRelationshipsCommentsData("2", "articlecomments")
+                    )
+                )
+            )
+        )
 
         client.post("/api/articles"){
             contentType = MediaType.APPLICATION_JSON
@@ -122,7 +143,7 @@ class BlogApplicationDslApplicationTests {
             status { isCreated() }
         }.andReturn()
         .let {
-            val article: Article = mapper.readValue(it.response.contentAsString)
+            val article: ArticleDto = mapper.readValue(it.response.contentAsString)
             val location: String = it.response.getHeaderValue("location") as String
             Assertions.assertTrue(location == "http://localhost/api/articles/${article.id}")
             client.get("/api/articles/${article.id}")

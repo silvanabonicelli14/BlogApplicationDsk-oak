@@ -6,13 +6,19 @@ import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleDto
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder.jsonApiModel
 import com.toedter.spring.hateoas.jsonapi.MediaTypes
+import liquibase.pro.packaged.ex
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.hateoas.RepresentationModel
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
+import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver
 import java.net.URI
 
 class ArticlesHandler(private val repository: Repository<Article>) {
@@ -64,18 +70,29 @@ class ArticlesHandler(private val repository: Repository<Article>) {
             }
     }
 
-    private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
-        repository.getOne(intId)
-            ?.run(::okArticleDtoResponse)
-            ?: ServerResponse.notFound().build()
-    }
-        ?: ServerResponse.badRequest().build())
+//    private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
+//        repository.getOne(intId)
+//            ?.run(::okArticleDtoResponse)
+//            ?: ServerResponse.notFound().build()
+//    }
+//        ?: ServerResponse.badRequest().build())
+
+    private fun getOne(id: String) =
+        try {
+            repository.getOne(id.toInt())
+                ?.run(::okArticleDtoResponse)
+                ?: ServerResponse.notFound().build()
+        } catch (exc: Exception) {
+            logger.error("Handling of [ ${exc.javaClass.name} ] resulted in Exception (${exc.message})")
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "Article Id not valid"
+            )
+        }
+
 
     private fun okResponse(any: Any): ServerResponse = ServerResponse.ok()
         .contentType(MediaType.APPLICATION_JSON)
         .body(any)
-
-
 
 //    With manual and spring-hateoas-jsonapi library
 //
@@ -146,3 +163,4 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         }
         ?: ServerResponse.badRequest().build())
 }
+

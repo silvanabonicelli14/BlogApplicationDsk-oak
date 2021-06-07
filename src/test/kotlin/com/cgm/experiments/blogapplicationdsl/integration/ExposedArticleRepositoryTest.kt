@@ -36,8 +36,8 @@ class ExposedArticleRepositoryTest {
         app = start(RandomServerPort){
             beans {
                 //connectToH2FromEnv()
-                //connectToPostgreFromEnv(container)
-                connectToPostgreFromEnv()
+                connectToPostgreFromEnv(container)
+                //connectToPostgreFromEnv()
                 enableLiquibase("classpath:/liquibase/db-changelog-master.xml")
             }
         }
