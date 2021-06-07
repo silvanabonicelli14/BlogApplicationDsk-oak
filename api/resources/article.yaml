@@ -99,10 +99,10 @@ paths:
       get:
          tags:
          - "users"
-         summary: Get all articles
+         summary: Get all users
          responses:
             '200':
-               description: A list of articles.
+               description: A list of users.
                content:
                   application/json:
                      schema:
