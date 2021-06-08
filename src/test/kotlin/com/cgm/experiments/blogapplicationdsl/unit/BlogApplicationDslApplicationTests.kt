@@ -117,18 +117,18 @@ class BlogApplicationDslApplicationTests {
         val expectedArticle = ArticleDto(
             "3",
             "articles",
-            ArticleAttributes(
+            ArticleDtoAttributes(
                 "title 1",
                 "body 1",
                 com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
                     "1", "authors", AuthorAttributes("Author 1")
                 )
             ),
-            ArticleRelationships(
-                ArticleRelationshipsComments(
+            ArticleDtoRelationships(
+                ArticleDtoRelationshipsComments(
                     listOf(
-                        ArticleRelationshipsCommentsData("1", "articlecomments"),
-                        ArticleRelationshipsCommentsData("2", "articlecomments")
+                        ArticleDtoRelationshipsCommentsData("1", "articlecomments"),
+                        ArticleDtoRelationshipsCommentsData("2", "articlecomments")
                     )
                 )
             )

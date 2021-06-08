@@ -1,8 +1,8 @@
 package com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles
 
 import java.util.Objects
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleAttributes
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleRelationships
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleDtoAttributes
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleDtoRelationships
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
@@ -22,15 +22,15 @@ import javax.validation.Valid
  */
 data class ArticleDto(
 
-    @field:JsonProperty("id") val id: kotlin.String,
+    @field:JsonProperty("id", required = true) val id: kotlin.String,
 
-    @field:JsonProperty("type") val type: kotlin.String,
-
-    @field:Valid
-    @field:JsonProperty("attributes") val attributes: ArticleAttributes,
+    @field:JsonProperty("type", required = true) val type: kotlin.String,
 
     @field:Valid
-    @field:JsonProperty("relationships") val relationships: ArticleRelationships
+    @field:JsonProperty("attributes", required = true) val attributes: ArticleDtoAttributes,
+
+    @field:Valid
+    @field:JsonProperty("relationships", required = true) val relationships: ArticleDtoRelationships
 ) {
 
 }

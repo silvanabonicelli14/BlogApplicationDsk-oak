@@ -6,19 +6,15 @@ import com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters.Adapter
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleDto
 import com.toedter.spring.hateoas.jsonapi.JsonApiModelBuilder.jsonApiModel
 import com.toedter.spring.hateoas.jsonapi.MediaTypes
-import liquibase.pro.packaged.ex
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.hateoas.RepresentationModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
-import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver
 import java.net.URI
 
 class ArticlesHandler(private val repository: Repository<Article>) {

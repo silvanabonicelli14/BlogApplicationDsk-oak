@@ -14,13 +14,13 @@ import javax.validation.Valid
 /**
  * 
  * @param id 
- * @param comment 
+ * @param type 
  */
-data class ArticleRelationshipsCommentsData(
+data class ArticleDtoRelationshipsCommentsData(
 
-    @field:JsonProperty("id") val id: kotlin.String,
+    @field:JsonProperty("id") val id: kotlin.String? = null,
 
-    @field:JsonProperty("type") val type: kotlin.String
+    @field:JsonProperty("type") val type: kotlin.String? = null
 ) {
 
 }

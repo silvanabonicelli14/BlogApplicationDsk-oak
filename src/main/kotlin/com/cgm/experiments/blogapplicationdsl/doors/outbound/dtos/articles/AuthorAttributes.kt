@@ -17,7 +17,7 @@ import javax.validation.Valid
  */
 data class AuthorAttributes(
 
-    @field:JsonProperty("name") val name: kotlin.String
+    @field:JsonProperty("name", required = true) val name: kotlin.String
 ) {
 
 }

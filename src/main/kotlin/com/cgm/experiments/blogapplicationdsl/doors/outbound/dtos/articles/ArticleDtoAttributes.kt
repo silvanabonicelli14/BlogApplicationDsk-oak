@@ -1,7 +1,7 @@
 package com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles
 
 import java.util.Objects
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.ArticleRelationshipsComments
+import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
@@ -14,12 +14,18 @@ import javax.validation.Valid
 
 /**
  * 
- * @param comments 
+ * @param title 
+ * @param body 
+ * @param author 
  */
-data class ArticleRelationships(
+data class ArticleDtoAttributes(
+
+    @field:JsonProperty("title", required = true) val title: kotlin.String,
+
+    @field:JsonProperty("body", required = true) val body: kotlin.String,
 
     @field:Valid
-    @field:JsonProperty("comments") val comments: ArticleRelationshipsComments? = null
+    @field:JsonProperty("author", required = true) val author: Author
 ) {
 
 }

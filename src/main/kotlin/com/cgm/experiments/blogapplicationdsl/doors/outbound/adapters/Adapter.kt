@@ -3,7 +3,6 @@ package com.cgm.experiments.blogapplicationdsl.doors.outbound.adapters
 import com.cgm.experiments.blogapplicationdsl.domain.model.Article
 import com.cgm.experiments.blogapplicationdsl.domain.model.ArticleComment
 import com.cgm.experiments.blogapplicationdsl.domain.model.Author
-import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.*
 import com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.*
 
 class Adapter {
@@ -12,17 +11,17 @@ class Adapter {
             ArticleDto(
                 article.id.toString(),
                 "articles",
-                ArticleAttributes(
+                ArticleDtoAttributes(
                     article.title,
                     article.body,
-                    com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
+                    Author(
                         article.author.id.toString(), "authors",
                         AuthorAttributes(article.author.name)
                     )
                 ),
-                ArticleRelationships(
-                    ArticleRelationshipsComments(article.comments?.map {
-                        ArticleRelationshipsCommentsData(
+                ArticleDtoRelationships(
+                    ArticleDtoRelationshipsComments(article.comments?.map {
+                        ArticleDtoRelationshipsCommentsData(
                             it.id.toString(),
                             it.comment
                         )
@@ -50,7 +49,7 @@ class Adapter {
                 ArticleDto(
                     it.id.toString(),
                     "articles",
-                    ArticleAttributes(
+                    ArticleDtoAttributes(
                         it.title,
                         it.body,
                         com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
@@ -59,8 +58,8 @@ class Adapter {
                             AuthorAttributes(it.author.name)
                         )
                     ),
-                    ArticleRelationships(ArticleRelationshipsComments(it.comments?.map { comm ->
-                        ArticleRelationshipsCommentsData(
+                    ArticleDtoRelationships(ArticleDtoRelationshipsComments(it.comments?.map { comm ->
+                        ArticleDtoRelationshipsCommentsData(
                             comm.id.toString(),
                             "articlecomments"
                         )
@@ -74,7 +73,7 @@ class Adapter {
             return ArticleDto(
                     article.id.toString(),
                     "articles",
-                    ArticleAttributes(
+                    ArticleDtoAttributes(
                         article.title,
                         article.body,
                         com.cgm.experiments.blogapplicationdsl.doors.outbound.dtos.articles.Author(
@@ -83,8 +82,8 @@ class Adapter {
                             AuthorAttributes(article.author.name)
                         )
                     ),
-                    ArticleRelationships(ArticleRelationshipsComments(article.comments?.map { comm ->
-                        ArticleRelationshipsCommentsData(
+                    ArticleDtoRelationships(ArticleDtoRelationshipsComments(article.comments?.map { comm ->
+                        ArticleDtoRelationshipsCommentsData(
                             comm.id.toString(),
                             "articlecomments"
                         )
@@ -109,7 +108,7 @@ class Adapter {
                 article.id.toInt(),
                 article.attributes.title,
                 article.attributes.body,
-                article.relationships.comments?.data?.map { ArticleComment(it.id?.toInt()!!, it.type,article.id.toInt()) },
+                article.relationships.comments?.data?.map { ArticleComment(it.id?.toInt()!!, it.type!!,article.id.toInt()) },
                 Author(article.attributes.author.id.toInt(), article.attributes.author.attributes.name)
             )
         }
