@@ -70,25 +70,24 @@ class ArticlesHandler(private val repository: Repository<Article>) {
             }
     }
 
-//    private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
-//        repository.getOne(intId)
-//            ?.run(::okArticleDtoResponse)
-//            ?: ServerResponse.notFound().build()
-//    }
-//        ?: ServerResponse.badRequest().build())
+    private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
+        repository.getOne(intId)
+            ?.run(::okArticleDtoResponse)
+            ?: throw ArticleNotFoundException(id)
+    }
+        ?:  throw ArticleNotValidException(id))
 
-    private fun getOne(id: String) =
+    private fun getOneWithLog(id: String) =
         try {
             repository.getOne(id.toInt())
                 ?.run(::okArticleDtoResponse)
-                ?: ServerResponse.notFound().build()
+                ?: throw ArticleNotFoundException(id)
         } catch (exc: Exception) {
             logger.error("Handling of [ ${exc.javaClass.name} ] resulted in Exception (${exc.message})")
             throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST, "Article Id not valid"
             )
         }
-
 
     private fun okResponse(any: Any): ServerResponse = ServerResponse.ok()
         .contentType(MediaType.APPLICATION_JSON)
@@ -163,4 +162,3 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         }
         ?: ServerResponse.badRequest().build())
 }
-
