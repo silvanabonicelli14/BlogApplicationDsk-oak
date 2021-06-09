@@ -13,6 +13,7 @@ import org.springframework.core.env.get
 import org.springframework.http.MediaType
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.servlet.function.router
 import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
@@ -25,7 +26,9 @@ fun initializeContext(): BeanDefinitionDsl = beans {
 
     //enableSecurity()
     enableLiquibase(env["app.liquibase.change-log"]!!)
-
+//    bean{
+//        RestResponseEntityExceptionHandler()
+//    }
 //    env["app.liquibase.change-log"]
 //        ?.run(::enableLiquibase)
 //        ?://TODO "controllo parametro vuoto-> loggo errore o eccezione loggata"

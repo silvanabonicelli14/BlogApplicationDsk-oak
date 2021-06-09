@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger
 import org.springframework.hateoas.RepresentationModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
@@ -20,12 +19,11 @@ import java.net.URI
 class ArticlesHandler(private val repository: Repository<Article>) {
 
     private val logger: Logger = LogManager.getLogger(ArticlesHandler::class.java)
-    @GetMapping("/{id}")
     fun find(request: ServerRequest): ServerResponse {
-        logger.debug("Debug message");
-        logger.info("Info message");
-        logger.warn("Warn message");
-        logger.error("Error message");
+        logger.debug("Debug message")
+        logger.info("Info message")
+        logger.warn("Warn message")
+        logger.error("Error message")
 
         return (request.inPath("id")
             ?.run(::getOne)
@@ -69,9 +67,9 @@ class ArticlesHandler(private val repository: Repository<Article>) {
     private fun getOne(id: String) = (id.toIntOrNull()?.let { intId ->
         repository.getOne(intId)
             ?.run(::okArticleDtoResponse)
-            ?: throw ArticleNotFoundException(id)
+            ?: throw ArticleNotFoundException("Article not found ($id)")
     }
-        ?:  throw ArticleNotValidException(id))
+        ?: throw ArticleNotValidException(id))
 
     private fun getOneWithLog(id: String) =
         try {
@@ -135,8 +133,8 @@ class ArticlesHandler(private val repository: Repository<Article>) {
         val articleDto = Adapter.articleAdapter(article)
         return jsonApiModel()
             .model(articleDto)
-            .relationship("comments", articleDto.relationships?.comments?.data!!)
-            .relationship("author", articleDto.attributes?.author!!)
+            .relationship("comments", articleDto.relationships.comments?.data!!)
+            .relationship("author", articleDto.attributes.author)
             .build()
     }
 

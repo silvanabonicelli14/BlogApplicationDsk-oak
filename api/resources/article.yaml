@@ -73,7 +73,11 @@ paths:
           description: "Internal error"
 
         '404':
-          description: "not found"
+          description: 'Article not found'
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/CustomError'
 
   /users:
     post:
@@ -110,8 +114,19 @@ paths:
                 items:
                   $ref: '#/components/schemas/ArticleDto'
 
+
 components:
   schemas:
+    CustomError:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - status
+        - message
 
     Author:
       type: object
@@ -176,4 +191,3 @@ components:
         - type
         - attributes
         - relationships
-
